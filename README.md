@@ -88,6 +88,7 @@ Digite `/` a qualquer momento para abrir o menu ao vivo. Os poderes ficam a um a
 | `/api` | troca sua chave NVIDIA na hora — testa, valida e ativa sem reiniciar |
 | `/skills` | lista as skills instaladas |
 | `/skillcreator` | cria uma nova skill (ensina o clawfast a fazer algo do seu jeito) |
+| `/conect` | conecta uma IA externa (Claude Code, Codex, Gemini…) para dirigir o clawfast via MCP |
 | `/system` | salva o cérebro do agente (system prompt) num visualizador HTML |
 | `/nov` | mostra as novidades desta versão |
 | `/exit` | fecha o clawfast |
@@ -127,6 +128,73 @@ O clawfast não é teórico — ele **fala com a rede**:
 Tudo dentro de um **controle de escopo**: você define o alvo, ele respeita a fronteira. Poder com responsabilidade.
 
 > Use o clawfast apenas em sistemas que você tem **autorização explícita** para testar.
+
+---
+
+## O modo mais poderoso: avaliação multi-agente
+
+Peça uma avaliação completa e o clawfast deixa de rodar uma ferramenta por vez — um **Orquestrador** sobe **quatro agentes especialistas que trabalham juntos** no mesmo alvo, conversando entre si e compartilhando um mapa vivo do sistema:
+
+```text
+❯ faça uma avaliação completa de https://example.com
+❯ pentesta meu sistema: o site é https://app.exemplo.com e o código está em ./
+```
+
+| Agente | O que faz |
+|--------|-----------|
+| 🔎 **Discovery** | mapeia a superfície — links, formulários, tecnologias, endpoints |
+| 🌐 **Web** | testa o comportamento em runtime, de forma segura — status, headers, CORS, reflexão |
+| 🧬 **Source** | audita o seu código (somente leitura) — acha rotas e fluxos de dados perigosos |
+| 🧪 **Validator** | confirma cada achado com prova — e é honesto quando não dá para provar |
+
+O pulo do gato é a **correlação**: quando o Source acha um parâmetro do código que cai num ponto perigoso (um `fetch`, um `exec`, uma query) **e** esse mesmo parâmetro aparece exposto num endpoint que o Discovery mapeou, o clawfast junta os dois num achado de **alta confiança** — o tipo de falha (SSRF, injeção) que scanners isolados não enxergam.
+
+Tudo que os agentes descobrem alimenta um **grafo do alvo** persistente, e o clawfast te diz o **próximo passo** com base nele: lacunas de recon, parâmetros a testar, cadeias de exploração. Uma campanha que decide sozinha o que fazer a seguir.
+
+E você acompanha ao vivo:
+
+```text
+╭──────────────────────────────────────────────╮
+│ CLAWFAST MULTI-AGENT                          │
+│ Target: example.com                           │
+├──────────────────────────────────────────────┤
+│ [*] Discovery      RUNNING                    │
+│ [*] Web Analysis   RUNNING                    │
+│ [*] Source Audit   RUNNING                    │
+│ [ ] Verification   WAITING                    │
+├──────────────────────────────────────────────┤
+│ Assets        14                              │
+│ Endpoints     83                              │
+│ Parameters    219                             │
+│ Findings      7                               │
+│ Confirmed     2                               │
+╰──────────────────────────────────────────────╯
+```
+
+### O escopo é sagrado
+
+Se qualquer agente for tocar em algo **fora do escopo** — um formulário que envia dados para outro host, um probe num alvo não autorizado — a avaliação **para na hora** e te mostra exatamente o quê e onde, **sem tocar**. Você autoriza (ou não) e manda seguir. O clawfast **nunca sai do escopo sozinho**.
+
+---
+
+## Garimpo com Google Dorks
+
+Recon por operadores de busca — de graça e sem chave, sobre DuckDuckGo **e** Bing. Você diz a intenção e o clawfast monta a sintaxe; ou dispara um **pacote pronto** contra um domínio:
+
+```text
+❯ roda os dorks de segredos e backups em example.com
+❯ procura painéis de admin e diretórios abertos em example.com
+```
+
+São pacotes no estilo **Google Hacking Database** para segredos e chaves, backups, arquivos de config, `.git` exposto, painéis de admin, listagem de diretórios, dashboards de dev, e dados do alvo vazados no GitHub/Pastebin/S3 — todos de uma vez, ou o dork exato que você já conhece. Ele ainda abre os melhores resultados para você já ler.
+
+---
+
+## Conecte um cérebro externo: /conect
+
+Quer um modelo de fronteira dirigindo o clawfast? Digite `/conect` e aponte o **Claude Code, Codex, Gemini ou Qwen** para ele. A IA externa vira o cérebro; o clawfast continua sendo as **mãos e os olhos** — ela chama as ferramentas, você vê tudo acontecer no seu terminal, igual a um turno local.
+
+Não é uma IA conversando com outra: é a IA conectada **usando o clawfast como ferramenta**, com todo o arsenal na mão — inclusive a avaliação multi-agente (`start_assessment`). Tudo preso em `127.0.0.1` e protegido por token. Configure uma vez, esqueça.
 
 ---
 
@@ -191,7 +259,7 @@ clawfast --version           # mostra a versão instalada
 Dentro do agente:
 
 ```text
-/model   /api   /skills   /skillcreator   /system   /nov   /exit
+/model   /api   /skills   /skillcreator   /conect   /system   /nov   /exit
 ```
 
 ---
