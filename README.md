@@ -29,7 +29,7 @@ Um comando e acabou. Não instala Node, não usa npm, não baixa código-fonte. 
 **Windows (PowerShell):**
 
 ```powershell
-$s = "$env:TEMPclawfast-install.ps1"; Invoke-WebRequest -UseBasicParsing 'https://github.com/devadeiltonlima/ClawFast-/releases/latest/download/install.ps1' -OutFile $s; & ([scriptblock]::Create((Get-Content -Raw $s)))
+$s = Join-Path $env:TEMP 'clawfast-install.ps1'; Invoke-WebRequest -UseBasicParsing 'https://github.com/devadeiltonlima/ClawFast-/releases/latest/download/install.ps1' -OutFile $s; & ([scriptblock]::Create((Get-Content -Raw $s)))
 ```
 
 **Linux e macOS:**
@@ -281,7 +281,7 @@ O de sempre, que vale repetir: use o clawfast só em sistemas que você tem auto
 **Instalar no Windows (PowerShell):**
 
 ```powershell
-$s = "$env:TEMPclawfast-install.ps1"; Invoke-WebRequest -UseBasicParsing 'https://github.com/devadeiltonlima/ClawFast-/releases/latest/download/install.ps1' -OutFile $s; & ([scriptblock]::Create((Get-Content -Raw $s)))
+$s = Join-Path $env:TEMP 'clawfast-install.ps1'; Invoke-WebRequest -UseBasicParsing 'https://github.com/devadeiltonlima/ClawFast-/releases/latest/download/install.ps1' -OutFile $s; & ([scriptblock]::Create((Get-Content -Raw $s)))
 ```
 
 **Instalar no Linux ou macOS:**
