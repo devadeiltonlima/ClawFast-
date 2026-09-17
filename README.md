@@ -69,8 +69,12 @@ Ele decide as ferramentas, executa comando por comando, mostra a saída em tempo
 
 ### Controles enquanto ele trabalha
 
+Ele pode estar no meio de qualquer coisa — um scan, um exploit, dez processos abertos. Você manda parar e **para tudo**, na hora.
+
 | Tecla | O que faz |
 |-------|-----------|
+| `F4` | **INICIAR / PARAR** — o botão que vive no topo da caixa de input. PARAR mata tudo de uma vez: o turno do modelo, a fila de mensagens, as ferramentas rodando, as sessões vivas (msfconsole, sqlmap, ssh, banco…) e a **árvore inteira de processos** |
+| `F2` e clicar | libera o mouse e clica no botão `[ INICIAR ]` / `[ PARAR ]` direto na tela |
 | `Ctrl+C` (1x) | interrompe a tarefa atual |
 | `Ctrl+C` (2x em 2s) | fecha o clawfast |
 | `↑` / `↓` | navega pelo histórico de comandos |
