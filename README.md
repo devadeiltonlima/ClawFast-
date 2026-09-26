@@ -94,16 +94,45 @@ Ele escolhe as ferramentas, executa comando por comando, mostra a saída ao vivo
 
 ---
 
+## A tela é sua: mouse, rolagem e as ações da mensagem
+
+O terminal continua sendo um terminal, mas a tela do clawfast responde ao mouse do jeito que você espera, sem atalho nenhum antes.
+
+| O que você faz | O que acontece |
+|----------------|----------------|
+| roda do mouse, `PgUp` e `PgDn` | rola a conversa pra trás e pra frente |
+| arrastar o mouse por cima do texto | seleciona, sem segurar Shift. Quando você solta, já está copiado |
+| `Ctrl+C` com algo selecionado | copia e avisa no canto da tela |
+| clicar numa mensagem que **você** mandou | abre as ações dela |
+
+As ações da mensagem são três:
+
+| Ação | O que faz |
+|------|-----------|
+| **Copiar** | manda o texto daquela mensagem pra área de transferência |
+| **Reverter** | desfaz daqui pra frente e devolve o texto pra caixa de input, pra você reescrever e tentar de novo |
+| **Bifurcar** | leva aquela mensagem pra uma sessão nova, sem mexer na atual |
+
+Sobre o Reverter, uma coisa precisa ficar clara: ele devolve **arquivo**. Os arquivos que o agente escreveu ou alterou naquele trecho voltam como estavam, a conversa some da tela e o histórico volta atrás. O que ele **não** faz é desfazer requisição que já saiu pela rede nem comando que já rodou no alvo. Isso não tem volta em lugar nenhum, e o clawfast avisa em vez de fingir que limpou.
+
+Se quiser voltar pra uma conversa antiga depois de fechar o programa, o `/session` guarda as suas sessões e o encerramento te mostra o comando pronto:
+
+```sh
+clawfast -s ses_0f7d409d7be8c064
+```
+
+---
+
 ## O start/stop: parar tudo na hora
 
 Ele pode estar no meio de qualquer coisa. Um scan, um exploit, dez processos abertos. Você manda parar e para tudo, na hora.
 
 | Tecla | O que faz |
 |-------|-----------|
-| `F4` | INICIAR e PARAR, o botão que fica no topo da caixa de input. O PARAR mata tudo de uma vez: o turno do modelo, a fila de mensagens, as ferramentas rodando, as sessões vivas (msfconsole, sqlmap, ssh, banco) e a árvore inteira de processos |
-| `F2` e clicar | libera o mouse e clica no botão `[ INICIAR ]` ou `[ PARAR ]` direto na tela |
-| `Ctrl+C` (1x) | interrompe a tarefa atual |
-| `Ctrl+C` (2x em 2s) | fecha o clawfast |
+| `Esc` | interrompe o que está rodando. Só isso, não fecha nada |
+| `F4` | INICIAR e PARAR, o botão que fica na caixa de input. O PARAR mata tudo de uma vez: o turno do modelo, a fila de mensagens, as ferramentas rodando, as sessões vivas (msfconsole, sqlmap, ssh, banco) e a árvore inteira de processos |
+| clicar em `[ PARAR ]` | a mesma coisa do F4, direto na tela, sem apertar nada antes |
+| `Ctrl+C` | com texto selecionado, copia. Sem nada selecionado, fecha o clawfast |
 | `↑` e `↓` | navega pelo histórico de comandos |
 | digitar durante a execução | manda texto direto pro programa em andamento (REPLs, prompts, `sudo`) |
 
@@ -135,7 +164,9 @@ Digita `/` a qualquer momento pra abrir o menu ao vivo:
 
 | Comando | O que faz |
 |---------|-----------|
-| `/model` | troca o modelo da sessão num seletor com setas |
+| `/model` | troca o modelo da sessão num seletor com setas, ou com o mouse |
+| `/variant` | nível de esforço do modelo ativo, onde o provedor aceita |
+| `/session` | abre uma sessão nova levando um resumo da anterior, ou volta pra uma guardada. Lá dentro, o `/delete` apaga uma sessão do disco |
 | `/api` | troca sua chave NVIDIA na hora, testa, valida e ativa sem reiniciar |
 | `/skills` | lista as skills instaladas |
 | `/skillcreator` | cria uma skill nova (ensina o clawfast a fazer algo do seu jeito) |
@@ -302,7 +333,7 @@ clawfast --version    # mostra a versão instalada
 **Dentro do agente:**
 
 ```text
-/model   /api   /skills   /skillcreator   /conect   /system   /nov   /exit
+/model   /variant   /api   /session   /skills   /skillcreator   /conect   /system   /nov   /exit
 ```
 
 ---
