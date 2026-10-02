@@ -1,16 +1,46 @@
 <div align="center">
 
-<img src="assets/clawfast.svg" alt="CLAWFAST, com o clawfast você faz tudo" width="760">
+<picture>
+  <source media="(prefers-reduced-motion: reduce)" srcset="assets/hero-matrix-estatico.svg">
+  <img src="assets/hero-matrix.svg" alt="CLAWFAST — com o clawfast você faz tudo" width="900">
+</picture>
 
-# CLAWFAST
+<br>
 
-### Com o clawfast você faz tudo.
+<img src="https://img.shields.io/github/v/release/devadeiltonlima/ClawFast-?style=flat-square&label=vers%C3%A3o&color=9dff5a&labelColor=0b0f0b" alt="versão">
+<img src="https://img.shields.io/badge/Windows%20%C2%B7%20Linux%20%C2%B7%20macOS-x64%20%2B%20arm64-16c60c?style=flat-square&labelColor=0b0f0b" alt="plataformas">
+<img src="https://img.shields.io/badge/instala%C3%A7%C3%A3o-1%20comando-5ef0ff?style=flat-square&labelColor=0b0f0b" alt="instalação">
+<img src="https://img.shields.io/badge/sem%20Node%20%C2%B7%20sem%20npm-execut%C3%A1vel%20%C3%BAnico-9dff5a?style=flat-square&labelColor=0b0f0b" alt="sem node, sem npm">
 
-Um agente de pentest que mora no seu terminal. Você fala em português, ele pensa, escreve, executa e prova. Recon, exploração, auditoria de código, relatório, tudo na linha de comando, com as suas chaves, sem login e sem limite de uso.
+### Um agente de pentest que mora no seu terminal.
+
+Você fala em português, ele pensa, escreve, executa e prova.<br>
+Recon, exploração, auditoria de código, relatório, tudo na linha de comando,<br>
+com as suas chaves, sem login e sem limite de uso.
+
+<br>
+
+**[Instalar](#instalar) · [Primeiro contato](#primeiro-contato) · [Como usar](#como-usar) · [Multi-agente](#avaliacao-multi-agente) · [Comandos](#comandos-de-barra)**
 
 </div>
 
 ---
+
+<a id="indice"></a>
+
+## Índice
+
+| | |
+|---|---|
+| **Começar** | [O que é o clawfast](#o-que-e) · [Instalar](#instalar) · [Primeiro contato](#primeiro-contato) · [Como usar](#como-usar) |
+| **A tela** | [Mouse, rolagem e ações](#a-tela-e-sua) · [O start/stop](#start-stop) · [Comandos de barra](#comandos-de-barra) |
+| **O que ele faz** | [Auditar um projeto](#auditar) · [Rede, alvos e escopo](#rede-e-escopo) · [Avaliação multi-agente](#avaliacao-multi-agente) · [Google Dorks](#google-dorks) |
+| **Estender** | [/conect: cérebro externo](#conect) · [Skills](#skills) · [Modelos e fallback](#modelos) |
+| **Manutenção** | [Atualizar](#atualizar) · [Por que larguei o npm](#larguei-o-npm) · [Sobre o código](#sobre-o-codigo) · [Referência rápida](#referencia-rapida) |
+
+---
+
+<a id="o-que-e"></a>
 
 ## O que é o clawfast (e por que ele existe)
 
@@ -20,46 +50,54 @@ Fiz o clawfast porque as ferramentas de pentest vivem espalhadas. Um scanner aqu
 
 > Você comanda, ele executa. O terminal vira sua arma.
 
+<sub>[↑ índice](#indice)</sub>
+
 ---
 
-## Instalação (sem npm, sem Node)
+<a id="instalar"></a>
+
+## Instalar (sem npm, sem Node)
 
 Um comando e acabou. Não instala Node, não usa npm, não baixa código-fonte. O clawfast vem como um executável único, com o runtime já embutido dentro dele.
 
-**Windows (PowerShell):**
+<details open>
+<summary><b>Windows (PowerShell)</b></summary>
 
 ```powershell
 $s = Join-Path $env:TEMP 'clawfast-install.ps1'; Invoke-WebRequest -UseBasicParsing 'https://github.com/devadeiltonlima/ClawFast-/releases/latest/download/install.ps1' -OutFile $s; & ([scriptblock]::Create((Get-Content -Raw $s)))
 ```
 
-**Linux e macOS:**
+</details>
+
+<details open>
+<summary><b>Linux e macOS</b></summary>
 
 ```sh
 curl -fsSL https://github.com/devadeiltonlima/ClawFast-/releases/latest/download/install.sh | sh
 export PATH="$HOME/.clawfast-runtime/bin:$PATH"
 ```
 
+No Linux e no macOS, joga a linha do `export PATH` no seu `~/.bashrc` ou `~/.zshrc` para o comando continuar existindo nos próximos terminais.
+
+</details>
+
 Tem para Windows x64, Linux x64, macOS Intel e macOS Apple Silicon.
 
 O instalador baixa o executável da release oficial no GitHub e confere o SHA-256 antes de instalar, então você sabe que o binário chegou inteiro e não foi trocado no caminho. Ele coloca tudo em `~/.clawfast-runtime/` e cria o comando `clawfast`, num canto isolado que não suja o resto do sistema e ainda guarda cada versão para rollback. E o principal: nada de Node nem npm, porque o runtime de JavaScript já mora dentro do executável.
 
-No Linux e no macOS, joga a linha do `export PATH` no seu `~/.bashrc` ou `~/.zshrc` para o comando continuar existindo nos próximos terminais. Depois confere:
+Depois confere:
 
 ```sh
 clawfast version
 ```
 
----
+<sub>Depois de instalado, [atualizar é um comando só](#atualizar). Se quer saber por que o npm saiu de cena, [é aqui](#larguei-o-npm).</sub>
 
-## Por que larguei o npm
-
-Antes o clawfast era `npm install -g clawfast`. Parei com isso, e o motivo é bem direto.
-
-A verificação automática de segurança do npm começou a barrar as publicações do clawfast. As versões 2.11.1, 2.11.2 e 2.11.3 foram bloqueadas, e enquanto isso a tag `latest` no npm ficava travada numa versão velha. Resultado: quem rodava `update` continuava baixando a versão antiga, sem novidade nenhuma.
-
-A saída foi cortar o npm de vez. Agora o clawfast sai como executável verificado por SHA-256 direto do GitHub Releases. Instala uma vez pelo comando lá de cima e, daí em diante, `clawfast upgrade` puxa as próximas versões do GitHub, sem npm no meio, sem nada travando a entrega. Foi isso que empurrou o projeto pro ciclo 3.x. O número mudou porque o canal de distribuição mudou, não porque teve reescrita ou quebra de compatibilidade.
+<sub>[↑ índice](#indice)</sub>
 
 ---
+
+<a id="primeiro-contato"></a>
 
 ## Primeiro contato
 
@@ -76,11 +114,24 @@ Na primeira vez ele pede uma chave de modelo, só isso. Recomendo a [NVIDIA buil
 
 A chave fica salva em `~/.clawfast/.env`, na sua máquina. Sem servidor no meio, sem login, sem ninguém do outro lado vendo o que você faz. É a sua chave e o seu terminal.
 
+<sub>Dá pra trocar a chave depois, a qualquer momento, com [`/api`](#comandos-de-barra). Os modelos disponíveis estão em [modelos e fallback](#modelos).</sub>
+
+<sub>[↑ índice](#indice)</sub>
+
 ---
+
+<a id="como-usar"></a>
 
 ## Como usar
 
 Depois que o banner sobe, você só conversa. Escreve o que quer, em português, e deixa ele trabalhar:
+
+<div align="center">
+<picture>
+  <source media="(prefers-reduced-motion: reduce)" srcset="assets/demo-recon-estatico.svg">
+  <img src="assets/demo-recon.svg" alt="sessão do clawfast fazendo recon de example.com, com as ferramentas disparando e um achado confirmado ao final" width="860">
+</picture>
+</div>
 
 ```text
 ❯ faça um recon completo de example.com
@@ -92,7 +143,13 @@ Depois que o banner sobe, você só conversa. Escreve o que quer, em português,
 
 Ele escolhe as ferramentas, executa comando por comando, mostra a saída ao vivo e entrega o resultado. A graça é essa: você não precisa decorar a sintaxe de dez ferramentas diferentes, só descreve a intenção e acompanha na tela, podendo interromper, redirecionar ou aprofundar na hora que quiser.
 
+<sub>Para o pedido inteiro de uma vez em [avaliação multi-agente](#avaliacao-multi-agente). Para auditar código em vez de atacar, veja o [modo só leitura](#auditar).</sub>
+
+<sub>[↑ índice](#indice)</sub>
+
 ---
+
+<a id="a-tela-e-sua"></a>
 
 ## A tela é sua: mouse, rolagem e as ações da mensagem
 
@@ -115,17 +172,28 @@ As ações da mensagem são três:
 
 Sobre o Reverter, uma coisa precisa ficar clara: ele devolve **arquivo**. Os arquivos que o agente escreveu ou alterou naquele trecho voltam como estavam, a conversa some da tela e o histórico volta atrás. O que ele **não** faz é desfazer requisição que já saiu pela rede nem comando que já rodou no alvo. Isso não tem volta em lugar nenhum, e o clawfast avisa em vez de fingir que limpou.
 
-Se quiser voltar pra uma conversa antiga depois de fechar o programa, o `/session` guarda as suas sessões e o encerramento te mostra o comando pronto:
+Se quiser voltar pra uma conversa antiga depois de fechar o programa, o [`/session`](#comandos-de-barra) guarda as suas sessões e o encerramento te mostra o comando pronto:
 
 ```sh
 clawfast -s ses_0f7d409d7be8c064
 ```
 
+<sub>[↑ índice](#indice)</sub>
+
 ---
+
+<a id="start-stop"></a>
 
 ## O start/stop: parar tudo na hora
 
 Ele pode estar no meio de qualquer coisa. Um scan, um exploit, dez processos abertos. Você manda parar e para tudo, na hora.
+
+<div align="center">
+<picture>
+  <source media="(prefers-reduced-motion: reduce)" srcset="assets/stop-estatico.svg">
+  <img src="assets/stop.svg" alt="o botão PARAR derrubando a árvore inteira de processos do clawfast" width="820">
+</picture>
+</div>
 
 | Tecla | O que faz |
 |-------|-----------|
@@ -138,7 +206,11 @@ Ele pode estar no meio de qualquer coisa. Um scan, um exploit, dez processos abe
 
 Botei o start/stop porque um agente autônomo com ferramentas reais na mão pode disparar um comando pesado, um scan longo ou um processo que abre outros processos. Você precisa de um freio de emergência que freia de verdade, não de um "cancelar" bonitinho que deixa coisa rodando por baixo dos panos. O PARAR aborta o modelo, esvazia a fila, encerra as sessões e derruba a árvore inteira de processos (no Windows via `taskkill /T`), então nada fica órfão comendo a sua máquina ou cutucando o alvo.
 
+<sub>[↑ índice](#indice)</sub>
+
 ---
+
+<a id="atualizar"></a>
 
 ## Atualizar é um comando só
 
@@ -156,7 +228,25 @@ Ainda tem o aviso automático. No boot ele checa o GitHub no máximo uma vez por
 clawfast --version
 ```
 
+<sub>[↑ índice](#indice)</sub>
+
 ---
+
+<a id="larguei-o-npm"></a>
+
+## Por que larguei o npm
+
+Antes o clawfast era `npm install -g clawfast`. Parei com isso, e o motivo é bem direto.
+
+A verificação automática de segurança do npm começou a barrar as publicações do clawfast. As versões 2.11.1, 2.11.2 e 2.11.3 foram bloqueadas, e enquanto isso a tag `latest` no npm ficava travada numa versão velha. Resultado: quem rodava `update` continuava baixando a versão antiga, sem novidade nenhuma.
+
+A saída foi cortar o npm de vez. Agora o clawfast sai como executável verificado por SHA-256 direto do GitHub Releases. [Instala uma vez](#instalar) pelo comando lá de cima e, daí em diante, `clawfast upgrade` puxa as próximas versões do GitHub, sem npm no meio, sem nada travando a entrega. Foi isso que empurrou o projeto pro ciclo 3.x. O número mudou porque o canal de distribuição mudou, não porque teve reescrita ou quebra de compatibilidade.
+
+<sub>[↑ índice](#indice)</sub>
+
+---
+
+<a id="comandos-de-barra"></a>
 
 ## Comandos de barra
 
@@ -164,18 +254,22 @@ Digita `/` a qualquer momento pra abrir o menu ao vivo:
 
 | Comando | O que faz |
 |---------|-----------|
-| `/model` | troca o modelo da sessão num seletor com setas, ou com o mouse |
+| `/model` | troca o modelo da sessão num seletor com setas, ou com o mouse — veja [modelos](#modelos) |
 | `/variant` | nível de esforço do modelo ativo, onde o provedor aceita |
 | `/session` | abre uma sessão nova levando um resumo da anterior, ou volta pra uma guardada. Lá dentro, o `/delete` apaga uma sessão do disco |
 | `/api` | troca sua chave NVIDIA na hora, testa, valida e ativa sem reiniciar |
-| `/skills` | lista as skills instaladas |
+| `/skills` | lista as [skills](#skills) instaladas |
 | `/skillcreator` | cria uma skill nova (ensina o clawfast a fazer algo do seu jeito) |
-| `/conect` | conecta uma IA externa (Claude Code, Codex, Gemini) pra dirigir o clawfast via MCP |
+| `/conect` | conecta uma IA externa (Claude Code, Codex, Gemini) pra dirigir o clawfast via MCP — veja [/conect](#conect) |
 | `/system` | salva o cérebro do agente (system prompt) num visualizador HTML |
 | `/nov` | mostra as novidades da versão |
 | `/exit` | fecha o clawfast |
 
+<sub>[↑ índice](#indice)</sub>
+
 ---
+
+<a id="auditar"></a>
 
 ## Auditar um projeto (modo só leitura)
 
@@ -189,7 +283,13 @@ A partir daí ele mapeia o projeto inteiro, montando o grafo de imports nos dois
 
 Fiz o modo assim porque auditar não é editar. Aqui ele nunca cria, altera ou apaga nada no seu projeto. A única coisa que ele escreve é um relatório `ANALISE_PROJETO_<data>.md` na raiz. Seu código fica intocado, e você confia no laudo sabendo que ele não pôs a mão em nada. Quer voltar pro modo de ataque? Só falar "modo normal".
 
+<sub>Esse mesmo olhar de código vira o agente **Source** quando você pede uma [avaliação multi-agente](#avaliacao-multi-agente).</sub>
+
+<sub>[↑ índice](#indice)</sub>
+
 ---
+
+<a id="rede-e-escopo"></a>
 
 ## Rede, alvos e o escopo
 
@@ -199,7 +299,11 @@ E o escopo é sagrado. Poder de execução real pede uma fronteira real. Você d
 
 > Use o clawfast só em sistemas que você tem autorização explícita pra testar.
 
+<sub>[↑ índice](#indice)</sub>
+
 ---
+
+<a id="avaliacao-multi-agente"></a>
 
 ## Avaliação multi-agente
 
@@ -221,25 +325,20 @@ O pulo do gato não é ter quatro agentes, é a correlação. Quando o Source ac
 
 Tudo que os agentes descobrem vira nó num grafo do alvo que persiste, e o clawfast te diz o próximo passo com base nele. E você acompanha ao vivo:
 
-```text
-╭──────────────────────────────────────────────╮
-│ CLAWFAST MULTI-AGENT                          │
-│ Target: example.com                           │
-├──────────────────────────────────────────────┤
-│ [*] Discovery      RUNNING                    │
-│ [*] Web Analysis   RUNNING                    │
-│ [*] Source Audit   RUNNING                    │
-│ [ ] Verification   WAITING                    │
-├──────────────────────────────────────────────┤
-│ Assets        14                              │
-│ Endpoints     83                              │
-│ Parameters    219                             │
-│ Findings      7                               │
-│ Confirmed     2                               │
-╰──────────────────────────────────────────────╯
-```
+<div align="center">
+<picture>
+  <source media="(prefers-reduced-motion: reduce)" srcset="assets/multi-agent-estatico.svg">
+  <img src="assets/multi-agent.svg" alt="painel do clawfast multi-agente: os quatro agentes saindo de WAITING para DONE enquanto os contadores sobem e a correlação acende" width="820">
+</picture>
+</div>
+
+<sub>Tudo isso respeita o [escopo](#rede-e-escopo), e uma IA externa conectada pelo [`/conect`](#conect) também alcança a avaliação multi-agente.</sub>
+
+<sub>[↑ índice](#indice)</sub>
 
 ---
+
+<a id="google-dorks"></a>
 
 ## Google Dorks
 
@@ -252,15 +351,23 @@ Recon por operador de busca, de graça e sem chave, em cima do DuckDuckGo e do B
 
 São pacotes no estilo Google Hacking Database pra segredo e chave, backup, arquivo de config, `.git` exposto, painel de admin, listagem de diretório e dado vazado no GitHub, Pastebin ou S3. É sem chave de propósito, porque recon inicial não devia custar nem depender de API paga. Ele usa os buscadores públicos e ainda abre os melhores resultados pra você já ir lendo.
 
+<sub>[↑ índice](#indice)</sub>
+
 ---
+
+<a id="conect"></a>
 
 ## /conect: um cérebro externo dirigindo
 
 Quer um modelo de fronteira dirigindo o clawfast? Digita `/conect` e aponta o Claude Code, Codex, Gemini ou Qwen pra ele. A IA externa vira o cérebro e o clawfast continua sendo as mãos e os olhos. Ela chama as ferramentas, você vê tudo acontecer no seu terminal.
 
-Não é uma IA conversando com a outra. Aqui a IA conectada usa o clawfast como ferramenta, com todo o arsenal na mão, inclusive a avaliação multi-agente. E fica tudo preso em `127.0.0.1`, protegido por token, então nada disso sai da sua máquina. Configura uma vez e esquece.
+Não é uma IA conversando com a outra. Aqui a IA conectada usa o clawfast como ferramenta, com todo o arsenal na mão, inclusive a [avaliação multi-agente](#avaliacao-multi-agente). E fica tudo preso em `127.0.0.1`, protegido por token, então nada disso sai da sua máquina. Configura uma vez e esquece.
+
+<sub>[↑ índice](#indice)</sub>
 
 ---
+
+<a id="skills"></a>
 
 ## Skills: ensinando truques novos
 
@@ -276,7 +383,11 @@ cole a skill agora  ❯ (cole o conteúdo... termine com /fim)
 
 A skill vira conhecimento disponível pra todos os modelos, mas o conteúdo completo só carrega quando o seu pedido casa com ela. Fiz assim pra manter o contexto leve e barato: o playbook pesado só entra quando é útil, em vez de ficar ocupando espaço em toda conversa. Lista com `/skills` e remove com `/skill delete <nome>`.
 
+<sub>[↑ índice](#indice)</sub>
+
 ---
+
+<a id="modelos"></a>
 
 ## Modelos e o fallback
 
@@ -291,7 +402,11 @@ O provedor primário é a NVIDIA build (gratuita), com modelos de função de ve
 
 Quer fixar um modelo? Abre o `/model` e escolhe com as setas. Quer voltar pro automático? `/model auto`.
 
+<sub>[↑ índice](#indice)</sub>
+
 ---
+
+<a id="sobre-o-codigo"></a>
 
 ## Sobre o código (e a real sobre segurança)
 
@@ -305,24 +420,34 @@ E as ferramentas externas que o clawfast usa durante uma sessão podem pedir dep
 
 O de sempre, que vale repetir: use o clawfast só em sistemas que você tem autorização explícita pra testar.
 
+<sub>[↑ índice](#indice)</sub>
+
 ---
+
+<a id="referencia-rapida"></a>
 
 ## Referência rápida
 
-**Instalar no Windows (PowerShell):**
+<details>
+<summary><b>Instalar</b></summary>
+
+**Windows (PowerShell):**
 
 ```powershell
 $s = Join-Path $env:TEMP 'clawfast-install.ps1'; Invoke-WebRequest -UseBasicParsing 'https://github.com/devadeiltonlima/ClawFast-/releases/latest/download/install.ps1' -OutFile $s; & ([scriptblock]::Create((Get-Content -Raw $s)))
 ```
 
-**Instalar no Linux ou macOS:**
+**Linux ou macOS:**
 
 ```sh
 curl -fsSL https://github.com/devadeiltonlima/ClawFast-/releases/latest/download/install.sh | sh
 export PATH="$HOME/.clawfast-runtime/bin:$PATH"
 ```
 
-**No dia a dia:**
+</details>
+
+<details>
+<summary><b>No dia a dia</b></summary>
 
 ```sh
 clawfast              # abre o agente
@@ -330,11 +455,18 @@ clawfast upgrade      # atualiza pela última versão (pelo GitHub, sem npm)
 clawfast --version    # mostra a versão instalada
 ```
 
-**Dentro do agente:**
+</details>
+
+<details>
+<summary><b>Dentro do agente</b></summary>
 
 ```text
 /model   /variant   /api   /session   /skills   /skillcreator   /conect   /system   /nov   /exit
 ```
+
+</details>
+
+<sub>[↑ índice](#indice)</sub>
 
 ---
 
@@ -343,5 +475,7 @@ clawfast --version    # mostra a versão instalada
 ### O terminal sempre foi seu. Agora ele trabalha por você.
 
 **Com o clawfast você faz tudo.**
+
+<sub>Use só em sistemas que você tem autorização explícita pra testar.</sub>
 
 </div>
