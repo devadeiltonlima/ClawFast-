@@ -34,7 +34,7 @@ com as suas chaves, sem login e sem limite de uso.
 |---|---|
 | **Começar** | [O que é o clawfast](#o-que-e) · [Instalar](#instalar) · [Primeiro contato](#primeiro-contato) · [Como usar](#como-usar) |
 | **A tela** | [Mouse, rolagem e ações](#a-tela-e-sua) · [O start/stop](#start-stop) · [Comandos de barra](#comandos-de-barra) |
-| **O que ele faz** | [Auditar um projeto](#auditar) · [Rede, alvos e escopo](#rede-e-escopo) · [Avaliação multi-agente](#avaliacao-multi-agente) · [Google Dorks](#google-dorks) |
+| **O que ele faz** | [Auditar um projeto](#auditar) · [Rede, alvos e escopo](#rede-e-escopo) · [Avaliação multi-agente](#avaliacao-multi-agente) · [Google Dorks](#google-dorks) · [Conectar APIs](#conectar-apis) |
 | **Estender** | [/conect: cérebro externo](#conect) · [Skills](#skills) · [Modelos e fallback](#modelos) |
 | **Manutenção** | [Atualizar](#atualizar) · [Por que larguei o npm](#larguei-o-npm) · [Sobre o código](#sobre-o-codigo) · [Referência rápida](#referencia-rapida) |
 
@@ -350,6 +350,29 @@ Recon por operador de busca, de graça e sem chave, em cima do DuckDuckGo e do B
 ```
 
 São pacotes no estilo Google Hacking Database pra segredo e chave, backup, arquivo de config, `.git` exposto, painel de admin, listagem de diretório e dado vazado no GitHub, Pastebin ou S3. É sem chave de propósito, porque recon inicial não devia custar nem depender de API paga. Ele usa os buscadores públicos e ainda abre os melhores resultados pra você já ir lendo.
+
+<sub>[↑ índice](#indice)</sub>
+
+---
+
+<a id="conectar-apis"></a>
+
+## Conectar APIs: cola a chave e pronto
+
+Cole a chave no chat e peça o que quer. O clawfast registra a conexão uma vez, guarda local (só você lê) e reusa nas próximas sessões. O segredo aparece sempre mascarado.
+
+```text
+❯ minha chave do shodan é 1a2b3c… — puxa tudo de example.com
+❯ conecta essa chave sk-or-… e lista os modelos
+```
+
+| Como ele reconhece | Serviços |
+|---|---|
+| Pelo prefixo da chave | OpenRouter, Groq, NVIDIA, xAI, Perplexity, GitLab, OpenAI, Anthropic, GitHub, Stripe, Slack, Hugging Face, Replicate, SendGrid, Google, Telegram, Apify |
+| Pelo nome (OSINT sem prefixo) | Shodan, SecurityTrails, VirusTotal, Hunter, AbuseIPDB, urlscan, HIBP, ipinfo, GreyNoise, Censys, LeakIX, DeepSeek, Mistral |
+| Qualquer outra | Você passa a URL base e o tipo de auth |
+
+Colou com aspas, quebra de linha ou do jeito `NOME=valor` de um `.env`? Ele limpa antes de salvar. O tráfego sai pelo Tor por padrão. Se o provedor bloquear o Tor (403, 429, página do Cloudflare), o próprio erro avisa e você liga `direct: true` na conexão. Ele nunca sai direto sem você pedir.
 
 <sub>[↑ índice](#indice)</sub>
 
