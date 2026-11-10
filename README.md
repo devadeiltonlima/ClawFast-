@@ -34,8 +34,8 @@ com as suas chaves, sem login e sem limite de uso.
 |---|---|
 | **Começar** | [O que é o clawfast](#o-que-e) · [Instalar](#instalar) · [Primeiro contato](#primeiro-contato) · [Como usar](#como-usar) |
 | **A tela** | [Mouse, rolagem e ações](#a-tela-e-sua) · [O start/stop](#start-stop) · [Comandos de barra](#comandos-de-barra) |
-| **O que ele faz** | [Auditar um projeto](#auditar) · [Rede, alvos e escopo](#rede-e-escopo) · [Avaliação multi-agente](#avaliacao-multi-agente) · [Google Dorks](#google-dorks) · [Conectar APIs](#conectar-apis) |
-| **Estender** | [/conect: cérebro externo](#conect) · [Skills](#skills) · [Modelos e fallback](#modelos) |
+| **O que ele faz** | [Auditar um projeto](#auditar) · [Rede, alvos e escopo](#rede-e-escopo) · [Avaliação multi-agente](#avaliacao-multi-agente) · [Google Dorks](#google-dorks) · [Conectar APIs](#conectar-apis) · [O ghostcyber e a sua memória](#ghostcyber) |
+| **Estender** | [Gateways de IA (/api)](#gateways) · [/conect: cérebro externo](#conect) · [Skills](#skills) · [Modelos e fallback](#modelos) |
 | **Manutenção** | [Atualizar](#atualizar) · [Por que larguei o npm](#larguei-o-npm) · [Sobre o código](#sobre-o-codigo) · [Referência rápida](#referencia-rapida) |
 
 ---
@@ -114,7 +114,7 @@ Na primeira vez ele pede uma chave de modelo, só isso. Recomendo a [NVIDIA buil
 
 A chave fica salva em `~/.clawfast/.env`, na sua máquina. Sem servidor no meio, sem login, sem ninguém do outro lado vendo o que você faz. É a sua chave e o seu terminal.
 
-<sub>Dá pra trocar a chave depois, a qualquer momento, com [`/api`](#comandos-de-barra). Os modelos disponíveis estão em [modelos e fallback](#modelos).</sub>
+<sub>Prefere outro provedor? O [`/api`](#gateways) conecta 25 gateways (OpenAI, Claude, Groq, DeepSeek, Ollama…). Dá pra trocar a chave depois, a qualquer momento, com ele. Os modelos disponíveis estão em [modelos e fallback](#modelos).</sub>
 
 <sub>[↑ índice](#indice)</sub>
 
@@ -255,9 +255,10 @@ Digita `/` a qualquer momento pra abrir o menu ao vivo:
 | Comando | O que faz |
 |---------|-----------|
 | `/model` | troca o modelo da sessão num seletor com setas, ou com o mouse — veja [modelos](#modelos) |
-| `/variant` | nível de esforço do modelo ativo, onde o provedor aceita |
+| `/variant` | nível de esforço de raciocínio (baixo, médio, alto) do modelo ativo, onde o provedor aceita |
 | `/session` | abre uma sessão nova levando um resumo da anterior, ou volta pra uma guardada. Lá dentro, o `/delete` apaga uma sessão do disco |
-| `/api` | troca sua chave NVIDIA na hora, testa, valida e ativa sem reiniciar |
+| `/api` | conecta um dos 25 gateways de IA: busca o provedor, cola a chave, escolhe o modelo — veja [gateways](#gateways) |
+| `/preferencias` | mostra o que o clawfast lembra de você (sempre, nunca, estilo) e apaga o que não quiser mais |
 | `/skills` | lista as [skills](#skills) instaladas |
 | `/skillcreator` | cria uma skill nova (ensina o clawfast a fazer algo do seu jeito) |
 | `/conect` | conecta uma IA externa (Claude Code, Codex, Gemini) pra dirigir o clawfast via MCP — veja [/conect](#conect) |
@@ -378,6 +379,71 @@ Colou com aspas, quebra de linha ou do jeito `NOME=valor` de um `.env`? Ele limp
 
 ---
 
+<a id="ghostcyber"></a>
+
+## O ghostcyber e a sua memória
+
+O clawfast não é um assistente. É um **ghostcyber**: direto, frio, sem "Olá, como posso ajudar?". Ele trabalha como um operador de red team sênior, sempre no mesmo ciclo:
+
+```text
+recon → hipótese → exploração → prova → encadeamento → registro
+```
+
+Mapeia antes de tocar, ataca primeiro o que tem mais chance e impacto, começa pela técnica mais silenciosa e só reporta o que conseguiu provar. O que não provou, ele diz que não está confirmado. Depois de cada vitória pergunta "isso destrava o quê?", pra transformar achado pequeno em caminho de alto impacto.
+
+**E ele aprende o seu jeito.** Fala no chat e ele grava pra sempre, em qualquer projeto e com qualquer modelo:
+
+```text
+❯ lembra que sempre quero o relatório em tópicos
+❯ nunca rode sqlmap com --risk 3 sem me avisar
+❯ a partir de agora fala comigo mais curto
+```
+
+| Tipo | Pra quê |
+|---|---|
+| **fazer** | o que ele deve sempre fazer |
+| **evitar** | o que ele nunca deve fazer |
+| **estilo** | tom, idioma e formato das respostas |
+
+Pra ver tudo que ele sabe de você, ou apagar uma regra: `/preferencias`. Fica em `~/.clawfast/preferencias.json`, na sua máquina.
+
+<sub>[↑ índice](#indice)</sub>
+
+---
+
+<a id="gateways"></a>
+
+## Gateways de IA: 25 provedores num comando
+
+Digita `/api` e abre uma lista com busca. Escolhe o provedor, cola a chave e escolhe o modelo, tudo em janelas flutuantes:
+
+```text
+╔══[ NOVA CHAVE OPENROUTER ]═════════════════════════ esc ═╗
+║                                                          ║
+║   Cole a chave OpenRouter (formato sk-or-…).             ║
+║   Crie em https://openrouter.ai/keys                     ║
+║                                                          ║
+║   ┌────────────────────────────────────────────────────┐ ║
+║   │ ❯ •••••••••••••••••••••••••••••••••• (73)▌         │ ║
+║   └────────────────────────────────────────────────────┘ ║
+║                                                          ║
+╟──────────────────────────────────────────────────────────╢
+║  [Enter] confirma   [Ctrl+V] cola   [Esc] cancela        ║
+╚══════════════════════════════════════════════════════════╝
+```
+
+A chave nunca aparece na tela e é testada antes de salvar: se o provedor recusar, nada é gravado e a anterior continua. Escolheu um modelo que raciocina? Ele já pergunta o esforço: baixo, médio ou alto.
+
+| Grupo | Provedores |
+|---|---|
+| Nativos | NVIDIA, OpenRouter, Google Gemini |
+| Nuvem | OpenAI, Anthropic (Claude), Groq, DeepSeek, xAI (Grok), Mistral, Together, Fireworks, Cerebras, DeepInfra, SambaNova, Perplexity, Moonshot (Kimi), Z.ai (GLM), Qwen, Hugging Face, Cohere, Novita, Vercel AI Gateway |
+| Seu próprio | LiteLLM (proxy), Ollama e LM Studio (locais, sem chave), ou **Outro**: qualquer API compatível com OpenAI |
+
+<sub>[↑ índice](#indice)</sub>
+
+---
+
 <a id="conect"></a>
 
 ## /conect: um cérebro externo dirigindo
@@ -418,10 +484,12 @@ O clawfast tem uma cadeia de fallback automática. Se um modelo falha ou bate no
 
 O provedor primário é a NVIDIA build (gratuita), com modelos de função de verdade, aqueles em que as ferramentas disparam mesmo:
 
-- `mistralai/mistral-medium-3.5`
-- `openai/gpt-oss-120b`
-- `z-ai/glm-5.1`
-- `qwen/qwen3.5-397b`
+- `nvidia/nemotron-3-ultra-550b`
+- `mistralai/mistral-large-4-1t`
+- `deepseek-ai/deepseek-v4.1-flash`
+- `z-ai/glm-5.3-flash`
+
+A lista do `/model` vem do catálogo oficial da NVIDIA ao vivo: modelo aposentado some sozinho, modelo novo aparece com a marca **novo**, e o que está pra sair mostra a data.
 
 Quer fixar um modelo? Abre o `/model` e escolhe com as setas. Quer voltar pro automático? `/model auto`.
 
@@ -484,7 +552,7 @@ clawfast --version    # mostra a versão instalada
 <summary><b>Dentro do agente</b></summary>
 
 ```text
-/model   /variant   /api   /session   /skills   /skillcreator   /conect   /system   /nov   /exit
+/model   /variant   /api   /preferencias   /session   /skills   /skillcreator   /conect   /system   /nov   /exit
 ```
 
 </details>
