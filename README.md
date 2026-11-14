@@ -33,9 +33,9 @@ com as suas chaves, sem login e sem limite de uso.
 | | |
 |---|---|
 | **Começar** | [O que é o clawfast](#o-que-e) · [Instalar](#instalar) · [Primeiro contato](#primeiro-contato) · [Como usar](#como-usar) |
-| **A tela** | [Mouse, rolagem e ações](#a-tela-e-sua) · [O start/stop](#start-stop) · [Comandos de barra](#comandos-de-barra) |
+| **A tela** | [Mouse, rolagem e ações](#a-tela-e-sua) · [O trabalho da IA recolhido](#atividade-recolhida) · [O start/stop](#start-stop) · [Comandos de barra](#comandos-de-barra) |
 | **O que ele faz** | [Auditar um projeto](#auditar) · [Rede, alvos e escopo](#rede-e-escopo) · [Avaliação multi-agente](#avaliacao-multi-agente) · [Google Dorks](#google-dorks) · [Conectar APIs](#conectar-apis) · [O ghostcyber e a sua memória](#ghostcyber) |
-| **Estender** | [Gateways de IA (/api)](#gateways) · [/conect: cérebro externo](#conect) · [Skills](#skills) · [Modelos e fallback](#modelos) |
+| **Estender** | [Gateways de IA (/api)](#gateways) · [/conect: cérebro externo](#conect) · [Skills](#skills) · [Modelos e fallback](#modelos) · [Contexto: /compact e /autocompact](#contexto) |
 | **Manutenção** | [Atualizar](#atualizar) · [Por que larguei o npm](#larguei-o-npm) · [Sobre o código](#sobre-o-codigo) · [Referência rápida](#referencia-rapida) |
 
 ---
@@ -114,6 +114,8 @@ Na primeira vez ele pede uma chave de modelo, só isso. Recomendo a [NVIDIA buil
 
 A chave fica salva em `~/.clawfast/.env`, na sua máquina. Sem servidor no meio, sem login, sem ninguém do outro lado vendo o que você faz. É a sua chave e o seu terminal.
 
+O que ele cria enquanto trabalha (scripts, saídas de ferramenta, relatórios) fica na pasta `SPRIT`, dentro da pasta onde você abriu o clawfast. Ela continua lá depois que você fecha o programa, intacta.
+
 <sub>Prefere outro provedor? O [`/api`](#gateways) conecta 25 gateways (OpenAI, Claude, Groq, DeepSeek, Ollama…). Dá pra trocar a chave depois, a qualquer momento, com ele. Os modelos disponíveis estão em [modelos e fallback](#modelos).</sub>
 
 <sub>[↑ índice](#indice)</sub>
@@ -172,7 +174,23 @@ As ações da mensagem são três:
 
 Sobre o Reverter, uma coisa precisa ficar clara: ele devolve **arquivo**. Os arquivos que o agente escreveu ou alterou naquele trecho voltam como estavam, a conversa some da tela e o histórico volta atrás. O que ele **não** faz é desfazer requisição que já saiu pela rede nem comando que já rodou no alvo. Isso não tem volta em lugar nenhum, e o clawfast avisa em vez de fingir que limpou.
 
-Se quiser voltar pra uma conversa antiga depois de fechar o programa, o [`/session`](#comandos-de-barra) guarda as suas sessões e o encerramento te mostra o comando pronto:
+<a id="atividade-recolhida"></a>
+
+### O trabalho da IA fica recolhido
+
+Enquanto ele trabalha, você vê tudo ao vivo: o que ele está pensando, cada comando, cada ferramenta. Quando o turno acaba, esse trabalho todo recolhe numa linha só, e o que fica na tela é o que importa, a resposta dele.
+
+```text
+▶ trabalhou 42,3s · pensou 8,1s · 4 comandos · 2 pesquisas · 3 ferramentas · 1 falhou
+```
+
+Um clique na linha abre tudo de novo, com cada comando e cada saída no lugar. Outro clique fecha. A conversa fica limpa sem você perder nada do que ele fez.
+
+### As suas sessões
+
+O [`/session`](#comandos-de-barra) lista as suas conversas guardadas, cada uma com um título curto que a própria IA dá a partir da sua primeira pergunta. A sessão é salva no arquivo dela a cada resposta, então nada se perde se o programa fechar no meio. A sessão em que você já está não aparece na lista, pra você não cair nela de novo achando que trocou. E os avisos automáticos que o agente manda pra si mesmo (como o "confira o pedido original antes de encerrar") não aparecem mais como se fossem mensagens suas.
+
+Se quiser voltar pra uma conversa antiga depois de fechar o programa, o encerramento te mostra o comando pronto:
 
 ```sh
 clawfast -s ses_0f7d409d7be8c064
@@ -256,7 +274,9 @@ Digita `/` a qualquer momento pra abrir o menu ao vivo:
 |---------|-----------|
 | `/model` | troca o modelo da sessão num seletor com setas, ou com o mouse — veja [modelos](#modelos) |
 | `/variant` | nível de esforço de raciocínio (baixo, médio, alto) do modelo ativo, onde o provedor aceita |
-| `/session` | abre uma sessão nova levando um resumo da anterior, ou volta pra uma guardada. Lá dentro, o `/delete` apaga uma sessão do disco |
+| `/session` | abre uma sessão nova levando um resumo da anterior, ou volta pra uma guardada, cada uma com o seu título. Lá dentro, o `/delete` apaga uma sessão do disco |
+| `/compact` | compacta a conversa agora: a parte antiga vira resumo, a recente fica como está — veja [contexto](#contexto) |
+| `/autocompact` | declara o limite de contexto (ex.: `/autocompact 300k`) e ele compacta sozinho ao chegar em 90%. `off` desliga |
 | `/api` | conecta um dos 25 gateways de IA: busca o provedor, cola a chave, escolhe o modelo — veja [gateways](#gateways) |
 | `/preferencias` | mostra o que o clawfast lembra de você (sempre, nunca, estilo) e apaga o que não quiser mais |
 | `/skills` | lista as [skills](#skills) instaladas |
@@ -497,6 +517,35 @@ Quer fixar um modelo? Abre o `/model` e escolhe com as setas. Quer voltar pro au
 
 ---
 
+<a id="contexto"></a>
+
+## Contexto que não estoura: /compact e /autocompact
+
+Todo modelo tem um limite de quanto texto cabe na conversa. Num pentest longo, com scan, saída de ferramenta e resposta de servidor, esse limite chega rápido. Antes, quando passava, o provedor recusava e o turno morria ou ia parar no fallback. Agora o clawfast compacta: a parte antiga da conversa vira um resumo organizado (o objetivo, o que já foi feito, o que falta, os alvos, os achados, os comandos e os erros exatos) e a parte recente continua inteira, do jeito que estava.
+
+Isso acontece de três jeitos:
+
+| Quando | O que ele faz |
+|--------|---------------|
+| o modelo recusa por tamanho | reconhece o erro (OpenAI, Claude, Gemini, OpenRouter, LiteLLM e outros gateways), compacta e tenta de novo **no mesmo modelo**. Não confunde com limite por minuto (429) |
+| a conversa chega perto do limite | se o modelo informa o tamanho da janela (OpenRouter, Gemini e gateways que mostram isso no `/models`), compacta antes de estourar |
+| você manda | o `/compact` compacta na hora |
+
+E você pode declarar o limite que quiser:
+
+```text
+❯ /autocompact 300k
+✓ autocompact em 300k — compacta sozinho ao chegar em 270k (90%)
+```
+
+Aceita `300k`, `1m` ou o número cheio, tipo `128000`. O `/autocompact` sozinho mostra o valor atual e o `/autocompact off` desliga. Se a janela real do modelo for menor que o valor que você declarou, vale a menor, pra o provedor não recusar.
+
+Ele também aprende com o erro. Quando um provedor recusa dizendo o limite ("maximum context length is 131072 tokens"), o clawfast guarda esse número e, dali em diante, compacta antes de chegar lá, mesmo depois de você fechar e abrir de novo.
+
+<sub>[↑ índice](#indice)</sub>
+
+---
+
 <a id="sobre-o-codigo"></a>
 
 ## Sobre o código (e a real sobre segurança)
@@ -552,7 +601,7 @@ clawfast --version    # mostra a versão instalada
 <summary><b>Dentro do agente</b></summary>
 
 ```text
-/model   /variant   /api   /preferencias   /session   /skills   /skillcreator   /conect   /system   /nov   /exit
+/model   /variant   /api   /preferencias   /session   /compact   /autocompact   /skills   /skillcreator   /conect   /system   /nov   /exit
 ```
 
 </details>
