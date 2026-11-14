@@ -34,7 +34,7 @@ com as suas chaves, sem login e sem limite de uso.
 |---|---|
 | **Começar** | [O que é o clawfast](#o-que-e) · [Instalar](#instalar) · [Primeiro contato](#primeiro-contato) · [Como usar](#como-usar) |
 | **A tela** | [Mouse, rolagem e ações](#a-tela-e-sua) · [O trabalho da IA recolhido](#atividade-recolhida) · [O start/stop](#start-stop) · [Comandos de barra](#comandos-de-barra) |
-| **O que ele faz** | [Auditar um projeto](#auditar) · [Rede, alvos e escopo](#rede-e-escopo) · [Avaliação multi-agente](#avaliacao-multi-agente) · [Google Dorks](#google-dorks) · [Conectar APIs](#conectar-apis) · [O ghostcyber e a sua memória](#ghostcyber) |
+| **O que ele faz** | [Auditar um projeto](#auditar) · [Rede, alvos e escopo](#rede-e-escopo) · [Avaliação multi-agente](#avaliacao-multi-agente) · [Google Dorks](#google-dorks) · [Conectar APIs](#conectar-apis) · [Engenharia reversa](#engenharia-reversa) · [O ghostcyber e a sua memória](#ghostcyber) |
 | **Estender** | [Gateways de IA (/api)](#gateways) · [/conect: cérebro externo](#conect) · [Skills](#skills) · [Modelos e fallback](#modelos) · [Contexto: /compact e /autocompact](#contexto) |
 | **Manutenção** | [Atualizar](#atualizar) · [Por que larguei o npm](#larguei-o-npm) · [Sobre o código](#sobre-o-codigo) · [Referência rápida](#referencia-rapida) |
 
@@ -178,13 +178,21 @@ Sobre o Reverter, uma coisa precisa ficar clara: ele devolve **arquivo**. Os arq
 
 ### O trabalho da IA fica recolhido
 
-Enquanto ele trabalha, você vê tudo ao vivo: o que ele está pensando, cada comando, cada ferramenta. Quando o turno acaba, esse trabalho todo recolhe numa linha só, e o que fica na tela é o que importa, a resposta dele.
+O que fica na tela é o que importa: o que a IA escreve pra você. Todo o resto (o que ela está pensando, cada comando, cada ferramenta) vira uma linha só, e já nasce recolhida, ao vivo. Enquanto roda, a linha gira e diz o que está acontecendo naquele instante:
 
 ```text
-▶ trabalhou 42,3s · pensou 8,1s · 4 comandos · 2 pesquisas · 3 ferramentas · 1 falhou
+⠹ rodando nmap -sV alvo.com · trabalhou 12,4s · pensou 3,1s · 2 comandos
 ```
 
-Um clique na linha abre tudo de novo, com cada comando e cada saída no lugar. Outro clique fecha. A conversa fica limpa sem você perder nada do que ele fez.
+Quando aquele trecho termina, a linha fecha com o resumo:
+
+```text
++ trabalhou 42,3s · pensou 8,1s · 4 comandos · 2 pesquisas · 3 ferramentas · 1 falhou
+```
+
+Cada trecho entre duas falas da IA vira uma linha própria, então o que ela escreve no meio do caminho ("vou rodar o scan agora…") continua visível, sem sumir no meio do resto.
+
+Um clique na linha abre tudo, com cada comando e cada saída no lugar, e funciona até com o trecho ainda rodando. Lá dentro, cada pensamento é uma linha própria (`+ pensou por 3,1s · …`) que também abre e fecha sozinha. `Ctrl+T` faz o mesmo no último trecho, sem mouse. A conversa fica limpa sem você perder nada do que ele fez.
 
 ### As suas sessões
 
@@ -394,6 +402,35 @@ Cole a chave no chat e peça o que quer. O clawfast registra a conexão uma vez,
 | Qualquer outra | Você passa a URL base e o tipo de auth |
 
 Colou com aspas, quebra de linha ou do jeito `NOME=valor` de um `.env`? Ele limpa antes de salvar. O tráfego sai pelo Tor por padrão. Se o provedor bloquear o Tor (403, 429, página do Cloudflare), o próprio erro avisa e você liga `direct: true` na conexão. Ele nunca sai direto sem você pedir.
+
+<sub>[↑ índice](#indice)</sub>
+
+---
+
+<a id="engenharia-reversa"></a>
+
+## Engenharia reversa de APK e binários nativos
+
+Manda o arquivo e pede em português. Não tem comando novo pra decorar: ele entende o que você quer e escolhe o caminho.
+
+```text
+❯ o que tem dentro desse app.apk?
+❯ descompila e procura chave de API escondida
+❯ esse apk roda no Android 15 com página de 16 KiB?
+❯ assina pra release com o meu perfil "loja" e instala no emulador
+❯ abre a libnative.so no Ghidra e me mostra a função de login
+```
+
+| O que ele faz | Como |
+|---|---|
+| Reconhece o arquivo | APK, XAPK, APKS, AAB, DEX, ELF, PE, Mach-O, e a engine do app (Unity, IL2CPP, Unreal) pelos bytes, não pela extensão |
+| Instala o que falta | Catálogo com 62 ferramentas (jadx, apktool, bundletool, Ghidra…). Ele mostra o plano e **você marca item a item** num formulário. Sem você, nada é instalado |
+| Confere compatibilidade | Esquemas de assinatura v1/v2/v3, `android:exported`, ABIs, alinhamento de 16 KiB, permissões por versão do Android |
+| Assina para release | 12 portões em sequência (integridade, alinhamento, assinatura, verificação, instalação no aparelho, execução). Só vai pra pasta `verified/` se passar em todos |
+| Guarda sua chave | O perfil de assinatura tem senha aleatória num cofre local. A IA usa o perfil pelo nome e **nunca vê a senha** |
+| Desce no nativo | `.so` aberto no Ghidra sem interface: funções, referências cruzadas e o código decompilado das funções que você pedir |
+
+E uma regra que vale pra tudo: **pergunta não é ordem**. Se você só perguntar ("dá pra descompilar isso?"), ele responde e para. Só executa quando você manda.
 
 <sub>[↑ índice](#indice)</sub>
 
