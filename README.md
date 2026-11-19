@@ -1,658 +1,241 @@
 <div align="center">
 
-<picture>
-  <source media="(prefers-reduced-motion: reduce)" srcset="assets/hero-matrix-estatico.svg">
-  <img src="assets/hero-matrix.svg" alt="CLAWFAST — com o clawfast você faz tudo" width="900">
-</picture>
+<img src="assets/logo.svg" alt="logo do clawfast" width="110">
 
-<br>
+# CLAWFAST
 
-<img src="https://img.shields.io/github/v/release/devadeiltonlima/ClawFast-?style=flat-square&label=vers%C3%A3o&color=9dff5a&labelColor=0b0f0b" alt="versão">
-<img src="https://img.shields.io/badge/Windows%20%C2%B7%20Linux%20%C2%B7%20macOS-x64%20%2B%20arm64-16c60c?style=flat-square&labelColor=0b0f0b" alt="plataformas">
-<img src="https://img.shields.io/badge/instala%C3%A7%C3%A3o-1%20comando-5ef0ff?style=flat-square&labelColor=0b0f0b" alt="instalação">
-<img src="https://img.shields.io/badge/sem%20Node%20%C2%B7%20sem%20npm-execut%C3%A1vel%20%C3%BAnico-9dff5a?style=flat-square&labelColor=0b0f0b" alt="sem node, sem npm">
+**Um agente de pentest que mora no seu terminal.**
 
-### Um agente de pentest que mora no seu terminal.
+Você fala em português, ele pensa, executa e prova.<br>
+Com as suas chaves, sem login e sem limite de uso.
 
-Você fala em português, ele pensa, escreve, executa e prova.<br>
-Recon, exploração, auditoria de código, relatório, tudo na linha de comando,<br>
-com as suas chaves, sem login e sem limite de uso.
+<img src="https://img.shields.io/github/v/release/devadeiltonlima/ClawFast-?style=flat-square&label=vers%C3%A3o&color=FFD600&labelColor=111111" alt="versão">
+<img src="https://img.shields.io/badge/licen%C3%A7a-MIT-FFD600?style=flat-square&labelColor=111111" alt="licença MIT">
 
-<br>
-
-**[Instalar](#instalar) · [Primeiro contato](#primeiro-contato) · [Como usar](#como-usar) · [Multi-agente](#avaliacao-multi-agente) · [Comandos](#comandos-de-barra)**
+[Terminal](#terminal) · [App (beta)](#app) · [Licença](#licença)
 
 </div>
 
----
+<br>
 
-<a id="indice"></a>
+## O que é
 
-## Índice
+O clawfast é um operador de segurança que trabalha na sua frente. Ele roda comando, faz requisição HTTP, mapeia o alvo, acha vulnerabilidade e escreve o laudo. Não é autocomplete: é um agente com ferramentas reais na mão.
 
-| | |
-|---|---|
-| **Começar** | [O que é o clawfast](#o-que-e) · [Instalar](#instalar) · [Primeiro contato](#primeiro-contato) · [Como usar](#como-usar) |
-| **A tela** | [Mouse, rolagem e ações](#a-tela-e-sua) · [O trabalho da IA recolhido](#atividade-recolhida) · [O start/stop](#start-stop) · [Comandos de barra](#comandos-de-barra) |
-| **O que ele faz** | [Auditar um projeto](#auditar) · [Rede, alvos e escopo](#rede-e-escopo) · [Avaliação multi-agente](#avaliacao-multi-agente) · [Google Dorks](#google-dorks) · [Conectar APIs](#conectar-apis) · [Engenharia reversa](#engenharia-reversa) · [O ghostcyber e a sua memória](#ghostcyber) |
-| **Estender** | [Gateways de IA (/api)](#gateways) · [/conect: cérebro externo](#conect) · [Skills](#skills) · [Modelos e fallback](#modelos) · [Contexto: /compact e /autocompact](#contexto) |
-| **Manutenção** | [Atualizar](#atualizar) · [Por que larguei o npm](#larguei-o-npm) · [Sobre o código](#sobre-o-codigo) · [Referência rápida](#referencia-rapida) |
+As ferramentas de pentest vivem espalhadas, um scanner aqui, um script ali, o relatório no fim. O clawfast junta tudo num lugar só, guiado por conversa, rodando na sua máquina.
 
----
-
-<a id="o-que-e"></a>
-
-## O que é o clawfast (e por que ele existe)
-
-Abre o terminal, digita um pedido em português e vê um operador de segurança trabalhando de verdade na sua frente. Ele roda comando, faz requisição HTTP, mapeia alvo, acha vulnerabilidade e escreve o laudo. Não é autocomplete, é um agente com ferramentas reais na mão.
-
-Fiz o clawfast porque as ferramentas de pentest vivem espalhadas. Um scanner aqui, um script ali, o relatório lá no fim, cada coisa num canto. A ideia foi juntar tudo num lugar só, guiado por conversa, rodando na sua máquina, com as suas próprias chaves de modelo, sem login e sem ninguém contando quantas vezes você usou.
-
-> Você comanda, ele executa. O terminal vira sua arma.
-
-<sub>[↑ índice](#indice)</sub>
-
----
+> Use o clawfast só em sistemas que você tem autorização explícita para testar.
 
 <a id="instalar"></a>
 
-## Instalar (sem npm, sem Node)
+## Duas formas de usar
 
-Um comando e acabou. Não instala Node, não usa npm, não baixa código-fonte. O clawfast vem como um executável único, com o runtime já embutido dentro dele.
+O mesmo clawfast, com o mesmo motor e a mesma versão, de dois jeitos. Abra o que for usar.
 
-<details open>
-<summary><b>Windows (PowerShell)</b></summary>
+<a id="terminal"></a>
+
+<details>
+<summary><b>Terminal</b> · Windows, Linux e macOS</summary>
+
+<br>
+
+### Instalar
+
+Um comando. Sem Node, sem npm: o clawfast é um executável único com o runtime embutido.
+
+**Windows (PowerShell)**
 
 ```powershell
 $s = Join-Path $env:TEMP 'clawfast-install.ps1'; Invoke-WebRequest -UseBasicParsing 'https://github.com/devadeiltonlima/ClawFast-/releases/latest/download/install.ps1' -OutFile $s; & ([scriptblock]::Create((Get-Content -Raw $s)))
 ```
 
-</details>
-
-<details open>
-<summary><b>Linux e macOS</b></summary>
+**Linux e macOS**
 
 ```sh
 curl -fsSL https://github.com/devadeiltonlima/ClawFast-/releases/latest/download/install.sh | sh
 export PATH="$HOME/.clawfast-runtime/bin:$PATH"
 ```
 
-No Linux e no macOS, joga a linha do `export PATH` no seu `~/.bashrc` ou `~/.zshrc` para o comando continuar existindo nos próximos terminais.
-
-</details>
-
-Tem para Windows x64, Linux x64, macOS Intel e macOS Apple Silicon.
-
-O instalador baixa o executável da release oficial no GitHub e confere o SHA-256 antes de instalar, então você sabe que o binário chegou inteiro e não foi trocado no caminho. Ele coloca tudo em `~/.clawfast-runtime/` e cria o comando `clawfast`, num canto isolado que não suja o resto do sistema e ainda guarda cada versão para rollback. E o principal: nada de Node nem npm, porque o runtime de JavaScript já mora dentro do executável.
-
-Depois confere:
+Tem para Windows x64, Linux x64, macOS Intel e Apple Silicon. O instalador confere o SHA-256 do executável antes de instalar e guarda tudo em `~/.clawfast-runtime/`. No Linux e no macOS, coloque a linha do `export PATH` no seu `~/.bashrc` ou `~/.zshrc`.
 
 ```sh
 clawfast version
 ```
 
-<sub>Depois de instalado, [atualizar é um comando só](#atualizar). Se quer saber por que o npm saiu de cena, [é aqui](#larguei-o-npm).</sub>
-
-<sub>[↑ índice](#indice)</sub>
-
----
-
-<a id="primeiro-contato"></a>
-
-## Primeiro contato
-
-Abre o terminal e digita:
+### Como usar
 
 ```sh
 clawfast
 ```
 
-Na primeira vez ele pede uma chave de modelo, só isso. Recomendo a [NVIDIA build](https://build.nvidia.com/), que dá modelos de ponta de graça:
+Na primeira vez ele pede uma chave de modelo. A [NVIDIA build](https://build.nvidia.com/) dá modelos de ponta de graça: crie a chave lá e cole quando o clawfast pedir. Ela fica em `~/.clawfast/.env`, na sua máquina.
 
-1. Cria a chave em **https://build.nvidia.com/**
-2. Cola quando o clawfast pedir.
-
-A chave fica salva em `~/.clawfast/.env`, na sua máquina. Sem servidor no meio, sem login, sem ninguém do outro lado vendo o que você faz. É a sua chave e o seu terminal.
-
-O que ele cria enquanto trabalha (scripts, saídas de ferramenta, relatórios) fica na pasta `SPRIT`, dentro da pasta onde você abriu o clawfast. Ela continua lá depois que você fecha o programa, intacta.
-
-<sub>Prefere outro provedor? O [`/api`](#gateways) conecta 25 gateways (OpenAI, Claude, Groq, DeepSeek, Ollama…). Dá pra trocar a chave depois, a qualquer momento, com ele. Os modelos disponíveis estão em [modelos e fallback](#modelos).</sub>
-
-<sub>[↑ índice](#indice)</sub>
-
----
-
-<a id="como-usar"></a>
-
-## Como usar
-
-Depois que o banner sobe, você só conversa. Escreve o que quer, em português, e deixa ele trabalhar:
-
-<div align="center">
-<picture>
-  <source media="(prefers-reduced-motion: reduce)" srcset="assets/demo-recon-estatico.svg">
-  <img src="assets/demo-recon.svg" alt="sessão do clawfast fazendo recon de example.com, com as ferramentas disparando e um achado confirmado ao final" width="860">
-</picture>
-</div>
+Depois é só conversar:
 
 ```text
 ❯ faça um recon completo de example.com
 ❯ teste essa API por IDOR e me mostre a prova
-❯ crie um script python que valida esse XSS e rode
 ❯ analise o meu projeto e me diga onde estão as falhas
 ❯ gere um relatório do que encontramos até agora
 ```
 
-Ele escolhe as ferramentas, executa comando por comando, mostra a saída ao vivo e entrega o resultado. A graça é essa: você não precisa decorar a sintaxe de dez ferramentas diferentes, só descreve a intenção e acompanha na tela, podendo interromper, redirecionar ou aprofundar na hora que quiser.
+Ele escolhe as ferramentas, executa, mostra a saída ao vivo e entrega o resultado. O que ele cria (scripts, saídas, relatórios) fica na pasta `SPRIT`, dentro da pasta onde você abriu o clawfast.
 
-<sub>Para o pedido inteiro de uma vez em [avaliação multi-agente](#avaliacao-multi-agente). Para auditar código em vez de atacar, veja o [modo só leitura](#auditar).</sub>
+### O que ele faz
 
-<sub>[↑ índice](#indice)</sub>
+| | |
+|---|---|
+| **Auditoria de código** | Rode dentro do seu projeto e peça uma auditoria. Ele vira só leitura, rastreia o fluxo de dados (SQLi, injeção, XSS, segredos, cripto fraca) e só reporta o que consegue provar. Escreve apenas o `ANALISE_PROJETO_<data>.md`. |
+| **Rede e escopo** | Requisição HTTP nativa, recon de subdomínio, portas e conteúdo, ferramentas que você já tem instaladas e verificação de exploit. Se algo for sair do escopo, ele para e pergunta. |
+| **Avaliação multi-agente** | Um orquestrador sobe quatro agentes (Discovery, Web, Source, Validator) no mesmo alvo e cruza código com superfície para achar falhas como SSRF e injeção. |
+| **Google Dorks** | Pacotes no estilo GHDB para segredos, backups, configs, `.git` exposto e painéis de admin, sem chave, via DuckDuckGo e Bing. |
+| **Conectar APIs** | Cole a chave no chat. Ele reconhece o serviço (Shodan, VirusTotal, OpenAI, GitHub e outros), guarda local e mostra o segredo sempre mascarado. |
+| **Engenharia reversa** | APK, XAPK, AAB, DEX, ELF, PE e Mach-O: descompila, confere compatibilidade, assina para release e abre `.so` no Ghidra. Nada é instalado sem você marcar. |
+| **Skills** | Ensine técnicas e checklists, ou use as skills que você já tem no Claude e no Codex. Veja [Skills](#skills-terminal) logo abaixo. |
+| **Memória** | Fale "lembra que…" ou "nunca…" e ele guarda suas preferências para qualquer projeto e modelo. Veja e apague com `/preferencias`. |
+| **25 gateways de IA** | `/api` conecta NVIDIA, OpenRouter, Gemini, OpenAI, Claude, Groq, DeepSeek, Ollama, LM Studio ou qualquer API compatível com OpenAI. |
+| **Cérebro externo** | `/conect` deixa o Claude Code, Codex ou Gemini dirigir o clawfast via MCP, preso em `127.0.0.1` e protegido por token. |
+| **Contexto longo** | Quando a conversa chega perto do limite do modelo, a parte antiga vira resumo e a recente fica inteira. `/compact` faz na hora, `/autocompact 300k` define o limite. |
+| **Fallback de modelos** | Se um modelo falha ou bate no limite de uso, ele passa para o próximo sozinho. |
 
----
+### Parar tudo na hora
 
-<a id="a-tela-e-sua"></a>
+| Tecla | O que faz |
+|---|---|
+| `Esc` | interrompe o que está rodando |
+| `F4` ou `[ PARAR ]` | para o modelo, a fila, as ferramentas, as sessões vivas e a árvore inteira de processos |
+| `Ctrl+C` | copia o que está selecionado; sem seleção, fecha o clawfast |
+| `Ctrl+T` | abre ou fecha o trabalho recolhido da última resposta |
 
-## A tela é sua: mouse, rolagem e as ações da mensagem
+### Comandos
 
-O terminal continua sendo um terminal, mas a tela do clawfast responde ao mouse do jeito que você espera, sem atalho nenhum antes.
+Digite `/` a qualquer momento para abrir o menu.
 
-| O que você faz | O que acontece |
-|----------------|----------------|
-| roda do mouse, `PgUp` e `PgDn` | rola a conversa pra trás e pra frente |
-| arrastar o mouse por cima do texto | seleciona, sem segurar Shift. Quando você solta, já está copiado |
-| `Ctrl+C` com algo selecionado | copia e avisa no canto da tela |
-| clicar numa mensagem que **você** mandou | abre as ações dela |
+| Comando | O que faz |
+|---|---|
+| `/model` | troca o modelo da sessão (`/model auto` volta ao automático) |
+| `/variant` | esforço de raciocínio do modelo: baixo, médio ou alto |
+| `/session` | abre uma sessão nova ou volta para uma guardada |
+| `/compact` · `/autocompact` | compacta a conversa agora ou define o limite automático |
+| `/api` | conecta um dos 25 gateways de IA |
+| `/preferencias` | mostra e apaga o que ele lembra de você |
+| `/skills` · `/skillcreator` · `/skill install` | lista, cria ou instala skills |
+| `/conect` | conecta uma IA externa via MCP |
+| `/nov` | novidades da versão |
+| `/exit` | fecha o clawfast |
 
-As ações da mensagem são três:
-
-| Ação | O que faz |
-|------|-----------|
-| **Copiar** | manda o texto daquela mensagem pra área de transferência |
-| **Reverter** | desfaz daqui pra frente e devolve o texto pra caixa de input, pra você reescrever e tentar de novo |
-| **Bifurcar** | leva aquela mensagem pra uma sessão nova, sem mexer na atual |
-
-Sobre o Reverter, uma coisa precisa ficar clara: ele devolve **arquivo**. Os arquivos que o agente escreveu ou alterou naquele trecho voltam como estavam, a conversa some da tela e o histórico volta atrás. O que ele **não** faz é desfazer requisição que já saiu pela rede nem comando que já rodou no alvo. Isso não tem volta em lugar nenhum, e o clawfast avisa em vez de fingir que limpou.
-
-<a id="atividade-recolhida"></a>
-
-### O trabalho da IA fica recolhido
-
-O que fica na tela é o que importa: o que a IA escreve pra você. Todo o resto (o que ela está pensando, cada comando, cada ferramenta) vira uma linha só, e já nasce recolhida, ao vivo. Enquanto roda, a linha gira e diz o que está acontecendo naquele instante:
-
-```text
-⠹ rodando nmap -sV alvo.com · trabalhou 12,4s · pensou 3,1s · 2 comandos
-```
-
-Quando aquele trecho termina, a linha fecha com o resumo:
-
-```text
-+ trabalhou 42,3s · pensou 8,1s · 4 comandos · 2 pesquisas · 3 ferramentas · 1 falhou
-```
-
-Cada trecho entre duas falas da IA vira uma linha própria, então o que ela escreve no meio do caminho ("vou rodar o scan agora…") continua visível, sem sumir no meio do resto.
-
-Um clique na linha abre tudo, com cada comando e cada saída no lugar, e funciona até com o trecho ainda rodando. Lá dentro, cada pensamento é uma linha própria (`+ pensou por 3,1s · …`) que também abre e fecha sozinha. `Ctrl+T` faz o mesmo no último trecho, sem mouse. A conversa fica limpa sem você perder nada do que ele fez.
-
-### As suas sessões
-
-O [`/session`](#comandos-de-barra) lista as suas conversas guardadas, cada uma com um título curto que a própria IA dá a partir da sua primeira pergunta. A sessão é salva no arquivo dela a cada resposta, então nada se perde se o programa fechar no meio. A sessão em que você já está não aparece na lista, pra você não cair nela de novo achando que trocou. E os avisos automáticos que o agente manda pra si mesmo (como o "confira o pedido original antes de encerrar") não aparecem mais como se fossem mensagens suas.
-
-Se quiser voltar pra uma conversa antiga depois de fechar o programa, o encerramento te mostra o comando pronto:
+Para voltar a uma conversa depois de fechar, use o comando que aparece no encerramento:
 
 ```sh
 clawfast -s ses_0f7d409d7be8c064
 ```
 
-<sub>[↑ índice](#indice)</sub>
+<a id="skills-terminal"></a>
 
----
+### Skills, inclusive do Claude e do Codex
 
-<a id="start-stop"></a>
+Uma skill é um conhecimento empacotado: um procedimento, um checklist, um playbook. O clawfast usa o mesmo formato do Claude e do Codex (uma pasta com `SKILL.md` e, se tiver, scripts e referências). Então a skill que você já tem nessas IAs funciona no clawfast.
 
-## O start/stop: parar tudo na hora
+Instale pelo caminho da pasta, de um `.skill`, de um `.zip` (pode ter várias dentro) ou de um `.md`:
 
-Ele pode estar no meio de qualquer coisa. Um scan, um exploit, dez processos abertos. Você manda parar e para tudo, na hora.
+```text
+❯ /skill install ~/.codex/skills/minha-skill
+```
 
-<div align="center">
-<picture>
-  <source media="(prefers-reduced-motion: reduce)" srcset="assets/stop-estatico.svg">
-  <img src="assets/stop.svg" alt="o botão PARAR derrubando a árvore inteira de processos do clawfast" width="820">
-</picture>
-</div>
+**O que o clawfast faz ao instalar**
 
-| Tecla | O que faz |
-|-------|-----------|
-| `Esc` | interrompe o que está rodando. Só isso, não fecha nada |
-| `F4` | INICIAR e PARAR, o botão que fica na caixa de input. O PARAR mata tudo de uma vez: o turno do modelo, a fila de mensagens, as ferramentas rodando, as sessões vivas (msfconsole, sqlmap, ssh, banco) e a árvore inteira de processos |
-| clicar em `[ PARAR ]` | a mesma coisa do F4, direto na tela, sem apertar nada antes |
-| `Ctrl+C` | com texto selecionado, copia. Sem nada selecionado, fecha o clawfast |
-| `↑` e `↓` | navega pelo histórico de comandos |
-| digitar durante a execução | manda texto direto pro programa em andamento (REPLs, prompts, `sudo`) |
+- Lê o `SKILL.md` por completo: nome, descrição, ferramentas que ela usa, scripts e referências.
+- Adapta a skill para ele, sem reescrever o texto: onde ela diz Claude ou Codex, passa a valer o clawfast, e as ferramentas ganham o equivalente (Bash vira o terminal do clawfast, Read e Edit viram a ferramenta de arquivos, WebFetch abre a página, e assim por diante).
+- Copia os scripts e arquivos junto, e avisa se a skill cita um arquivo que não veio ou se precisa de Python, Node ou outro runtime.
 
-Botei o start/stop porque um agente autônomo com ferramentas reais na mão pode disparar um comando pesado, um scan longo ou um processo que abre outros processos. Você precisa de um freio de emergência que freia de verdade, não de um "cancelar" bonitinho que deixa coisa rodando por baixo dos panos. O PARAR aborta o modelo, esvazia a fila, encerra as sessões e derruba a árvore inteira de processos (no Windows via `taskkill /T`), então nada fica órfão comendo a sua máquina ou cutucando o alvo.
+**Como ele usa:** nenhuma skill fica carregada o tempo todo. O clawfast sabe o nome e a descrição de cada uma e, quando o seu pedido combina, lê a skill antes de agir. Você também pode chamar pelo nome (`/nome-da-skill`). `/skills` lista e `/skillcreator` cria uma do zero.
 
-<sub>[↑ índice](#indice)</sub>
-
----
-
-<a id="atualizar"></a>
-
-## Atualizar é um comando só
-
-Depois de instalado, atualizar é isso:
+### Atualizar
 
 ```sh
 clawfast upgrade
 ```
 
-O `clawfast update` faz a mesma coisa. Por dentro ele age assim, e com cuidado: primeiro consulta a última release no GitHub, e se você já está na mais nova, avisa e não faz nada. Se tiver versão nova, ele baixa o executável novo, confere o SHA-256 e troca o binário em `~/.clawfast-runtime/`, guardando o anterior numa pasta por versão. Se algo der errado no download ou na conferência, o executável antigo continua no lugar, então você nunca fica sem o clawfast. E ele nunca baixa código-fonte, só o executável, o instalador e os checksums. O código continua fechado.
+Ele consulta a última release, baixa o executável novo, confere o SHA-256 e troca o binário guardando o anterior. Se algo der errado, a versão antiga continua no lugar. O clawfast também avisa sozinho quando sai versão nova.
 
-Ainda tem o aviso automático. No boot ele checa o GitHub no máximo uma vez por dia, em segundo plano, e na próxima vez que você abrir aparece sozinho um "nova versão disponível, rode clawfast update". Depois de atualizar, fecha e abre o clawfast pra rodar a versão nova.
+O clawfast saiu do npm porque a verificação automática do npm passou a barrar as publicações e travou a versão `latest`. Desde a 3.x a distribuição é só pelo GitHub Releases.
 
-```sh
-clawfast --version
-```
+</details>
 
-<sub>[↑ índice](#indice)</sub>
+<a id="app"></a>
 
----
+<details>
+<summary><b>App para Windows</b> <code>BETA</code> · o clawfast com ainda mais poder</summary>
 
-<a id="larguei-o-npm"></a>
+<br>
 
-## Por que larguei o npm
+O clawfast agora também tem um app de desktop. Ele já vem com o mesmo motor do clawfast de terminal, na mesma versão: tudo que o terminal faz, o app faz, e com o app o clawfast ganha ainda mais poder. Você enxerga o trabalho do agente, controla tudo por menus e conecta outras IAs e skills com um clique.
 
-Antes o clawfast era `npm install -g clawfast`. Parei com isso, e o motivo é bem direto.
+> O app está em fase beta e pode conter erros. Se algo der errado, abra uma issue aqui no repositório.
 
-A verificação automática de segurança do npm começou a barrar as publicações do clawfast. As versões 2.11.1, 2.11.2 e 2.11.3 foram bloqueadas, e enquanto isso a tag `latest` no npm ficava travada numa versão velha. Resultado: quem rodava `update` continuava baixando a versão antiga, sem novidade nenhuma.
+**Instalar:** baixe o [`clawfast-app-windows-x64.exe`](https://github.com/devadeiltonlima/ClawFast-/releases/latest/download/clawfast-app-windows-x64.exe) e rode. O motor vem dentro do instalador, então não precisa instalar o clawfast de terminal antes.
 
-A saída foi cortar o npm de vez. Agora o clawfast sai como executável verificado por SHA-256 direto do GitHub Releases. [Instala uma vez](#instalar) pelo comando lá de cima e, daí em diante, `clawfast upgrade` puxa as próximas versões do GitHub, sem npm no meio, sem nada travando a entrega. Foi isso que empurrou o projeto pro ciclo 3.x. O número mudou porque o canal de distribuição mudou, não porque teve reescrita ou quebra de compatibilidade.
+#### O que o app soma ao clawfast
 
-<sub>[↑ índice](#indice)</sub>
+| | |
+|---|---|
+| **Conversas na lateral** | Todas as sessões salvas com título automático. Clique para voltar a uma, renomeie ou apague (o que você apaga fica 30 dias numa lixeira antes de sumir). |
+| **Trabalho visível e organizado** | Cada comando, ferramenta e pesquisa vira um cartão recolhido. Um clique abre o comando e a saída. A resposta da IA fica limpa por cima. |
+| **Painel lateral** (`Ctrl+.`) | O que está rodando agora, quanto do contexto já foi usado, a lista de tarefas do plano, os agentes trabalhando em paralelo, as skills que a IA leu, os sites visitados e os conectores ativos. |
+| **Caixa de mensagem completa** | Escolha o modelo e o esforço de raciocínio ali mesmo, anexe imagens, abra os comandos com `/` e mande mensagens novas enquanto ele trabalha (elas entram na fila). |
+| **Ações em cada mensagem sua** | Editar, voltar até ali e reenviar, começar uma conversa nova a partir dela, ou copiar. |
+| **Perguntas em formulário** | Quando a IA precisa de uma decisão sua, ela pergunta num formulário com opções, em vez de parar no meio. |
+| **Confere se terminou** | Antes de encerrar, um verificador silencioso confere se o pedido foi atendido. Se faltou algo, ele volta e faz só o que faltou, sem repetir a resposta. |
+| **Volta ao fim** | Rolou a conversa para cima? Um botão leva de volta à última mensagem. |
 
----
+#### Configurações (`Ctrl+,`)
 
-<a id="comandos-de-barra"></a>
+| Seção | O que você ajusta |
+|---|---|
+| **Geral** | Cor de destaque (5 temas), fundo, fontes, largura da conversa, animações, aviso de novidades e comandos por conversa ("troca o modelo", "liga o safe mode" e ele roda o comando). |
+| **Modelos e chaves** | Modelo ativo, chaves de API por provedor, compactação automática do contexto e modo altíssimo (persona de pentest no máximo). |
+| **Rede e Tor** | Saída pelo Tor, IP que o alvo vê, troca de circuito e domínios que passam direto ou ficam bloqueados. |
+| **MCP** | Servidores MCP conectados e a permissão de cada ferramenta: permitir, aprovar, perguntar ou bloquear. |
+| **Conectores externos** | Liga o Claude Code, Codex, Cursor, Cline, Windsurf, Gemini CLI ou Qwen Code ao clawfast com um clique. |
+| **Uso** | Quanto você usou de cada provedor. |
+| **Segurança** | Safe-mode: pede confirmação antes de escrever ou apagar arquivo e antes de rodar comando. |
+| **Privacidade** | Escopo autorizado: os alvos que as ferramentas podem atingir (domínio, `*.dominio`, faixa de IP ou link), com importação de `.txt`. |
+| **Skills** | Suas skills e as que já estão instaladas no Claude e no Codex. |
+| **Sistema** | Versão, plataforma, pasta de trabalho, conversas salvas e reiniciar o motor. |
 
-## Comandos de barra
+<a id="skills-app"></a>
 
-Digita `/` a qualquer momento pra abrir o menu ao vivo:
+#### Skills de outras IAs, com um clique
 
-| Comando | O que faz |
-|---------|-----------|
-| `/model` | troca o modelo da sessão num seletor com setas, ou com o mouse — veja [modelos](#modelos) |
-| `/variant` | nível de esforço de raciocínio (baixo, médio, alto) do modelo ativo, onde o provedor aceita |
-| `/session` | abre uma sessão nova levando um resumo da anterior, ou volta pra uma guardada, cada uma com o seu título. Lá dentro, o `/delete` apaga uma sessão do disco |
-| `/compact` | compacta a conversa agora: a parte antiga vira resumo, a recente fica como está — veja [contexto](#contexto) |
-| `/autocompact` | declara o limite de contexto (ex.: `/autocompact 300k`) e ele compacta sozinho ao chegar em 90%. `off` desliga |
-| `/api` | conecta um dos 25 gateways de IA: busca o provedor, cola a chave, escolhe o modelo — veja [gateways](#gateways) |
-| `/preferencias` | mostra o que o clawfast lembra de você (sempre, nunca, estilo) e apaga o que não quiser mais |
-| `/skills` | lista as [skills](#skills) instaladas |
-| `/skillcreator` | cria uma skill nova (ensina o clawfast a fazer algo do seu jeito) |
-| `/conect` | conecta uma IA externa (Claude Code, Codex, Gemini) pra dirigir o clawfast via MCP — veja [/conect](#conect) |
-| `/system` | salva o cérebro do agente (system prompt) num visualizador HTML |
-| `/nov` | mostra as novidades da versão |
-| `/exit` | fecha o clawfast |
+Uma skill é um conhecimento empacotado: um procedimento, um checklist, um playbook. O clawfast usa o mesmo formato do Claude e do Codex (uma pasta com `SKILL.md` e, se tiver, scripts e referências). Então a skill que você já tem nessas IAs funciona no clawfast.
 
-<sub>[↑ índice](#indice)</sub>
+- **Já instaladas no Claude ou no Codex:** em Configurações → Skills aparece a lista "Instaladas no Claude e no Codex", com tudo que está em `~/.claude/skills` e `~/.codex/skills`. Clique em **Usar no clawfast**.
+- **De um arquivo ou pasta:** Configurações → Skills → **Adicionar**. Envie um `.skill`, um `.zip` (pode ter várias skills dentro), um `.md` solto, ou escolha a pasta da skill.
+- **Do zero:** **Adicionar → Criar uma skill**.
 
----
+**O que o clawfast faz ao instalar**
 
-<a id="auditar"></a>
+- Lê o `SKILL.md` por completo: nome, descrição, ferramentas que ela usa, scripts e referências.
+- Adapta a skill para ele, sem reescrever o texto: onde ela diz Claude ou Codex, passa a valer o clawfast, e as ferramentas ganham o equivalente (Bash vira o terminal do clawfast, Read e Edit viram a ferramenta de arquivos, WebFetch abre a página, e assim por diante).
+- Copia os scripts e arquivos junto, e avisa se a skill cita um arquivo que não veio ou se precisa de Python, Node ou outro runtime.
 
-## Auditar um projeto (modo só leitura)
+**Como ele usa:** nenhuma skill fica carregada o tempo todo. Quando o seu pedido combina com uma delas, o clawfast lê a skill antes de agir, e você vê na hora: aparece "Leu a skill X" na conversa.
 
-Entra na pasta do seu projeto e roda `clawfast` ali mesmo. Pede uma auditoria e ele vira um auditor dedicado, só leitura, sozinho, sem precisar de comando especial:
+#### Tudo do terminal, dentro do app
 
-```text
-❯ analise o meu projeto e procure vulnerabilidades e segredos
-```
+Auditoria de código, recon, avaliação multi-agente, Google Dorks, conectar APIs, engenharia reversa, memória, gateways de IA e contexto longo funcionam igual no app, porque o motor é o mesmo. Os comandos de barra também: digite `/` na caixa de mensagem.
 
-A partir daí ele mapeia o projeto inteiro, montando o grafo de imports nos dois sentidos pra achar import quebrado, ciclo e arquivo órfão. Vai atrás de vulnerabilidade de verdade: SQLi, injeção de comando e de código, XSS, TLS desligado, cripto fraca, CORS aberto, chave e token embutidos (que aparecem mascarados no laudo). Ele combina análise determinística com o raciocínio do modelo pra rastrear o fluxo de dados de ponta a ponta, e só aceita o que consegue provar, jogando fora todo achado sem caminho confirmado no código real.
+#### Atualizar
 
-Fiz o modo assim porque auditar não é editar. Aqui ele nunca cria, altera ou apaga nada no seu projeto. A única coisa que ele escreve é um relatório `ANALISE_PROJETO_<data>.md` na raiz. Seu código fica intocado, e você confia no laudo sabendo que ele não pôs a mão em nada. Quer voltar pro modo de ataque? Só falar "modo normal".
+Quando sai versão nova, aparece um ícone de atualização no rodapé do app. Um clique baixa e instala.
 
-<sub>Esse mesmo olhar de código vira o agente **Source** quando você pede uma [avaliação multi-agente](#avaliacao-multi-agente).</sub>
+</details>
 
-<sub>[↑ índice](#indice)</sub>
+## Licença
 
----
-
-<a id="rede-e-escopo"></a>
-
-## Rede, alvos e o escopo
-
-O clawfast não é teórico, ele fala com a rede. Faz requisição HTTP nativa (GET, POST, headers, cookies, payloads, ele bate no alvo e lê a resposta), roda recon de superfície completo (descoberta de subdomínio, varredura de porta, coleta de conteúdo e inteligência sobre o alvo), executa de verdade os scanners e ferramentas que você tem instalados (e te ajuda a instalar os que faltam) e faz verificação de exploit, porque "parece vulnerável" não basta, ele monta a prova e roda pra confirmar.
-
-E o escopo é sagrado. Poder de execução real pede uma fronteira real. Você define o alvo, e se qualquer parte do agente for tocar em algo fora do escopo, um formulário que manda dado pra outro host, um probe num alvo não autorizado, a operação para na hora e te mostra exatamente o quê e onde, sem tocar. Você autoriza (ou não) e manda seguir. Ele nunca sai do escopo sozinho.
-
-> Use o clawfast só em sistemas que você tem autorização explícita pra testar.
-
-<sub>[↑ índice](#indice)</sub>
-
----
-
-<a id="avaliacao-multi-agente"></a>
-
-## Avaliação multi-agente
-
-Pede uma avaliação completa e o clawfast para de rodar uma ferramenta por vez. Um Orquestrador sobe quatro agentes especialistas que trabalham juntos no mesmo alvo, conversando entre si e dividindo um mapa vivo do sistema:
-
-```text
-❯ faça uma avaliação completa de https://example.com
-❯ pentesta meu sistema: o site é https://app.exemplo.com e o código está em ./
-```
-
-| Agente | O que faz |
-|--------|-----------|
-| 🔎 **Discovery** | mapeia a superfície: links, formulários, tecnologias, endpoints |
-| 🌐 **Web** | testa o comportamento em runtime, de forma segura: status, headers, CORS, reflexão |
-| 🧬 **Source** | audita o seu código (só leitura), achando rotas e fluxos de dados perigosos |
-| 🧪 **Validator** | confirma cada achado com prova, e é honesto quando não dá pra provar |
-
-O pulo do gato não é ter quatro agentes, é a correlação. Quando o Source acha um parâmetro do código que cai num ponto perigoso (um `fetch`, um `exec`, uma query) e esse mesmo parâmetro aparece exposto num endpoint que o Discovery mapeou, o clawfast junta os dois num achado de alta confiança. É o tipo de falha, tipo SSRF ou injeção, que scanner isolado não enxerga, porque olha código e superfície separados.
-
-Tudo que os agentes descobrem vira nó num grafo do alvo que persiste, e o clawfast te diz o próximo passo com base nele. E você acompanha ao vivo:
+[MIT](LICENSE).
 
 <div align="center">
-<picture>
-  <source media="(prefers-reduced-motion: reduce)" srcset="assets/multi-agent-estatico.svg">
-  <img src="assets/multi-agent.svg" alt="painel do clawfast multi-agente: os quatro agentes saindo de WAITING para DONE enquanto os contadores sobem e a correlação acende" width="820">
-</picture>
-</div>
-
-<sub>Tudo isso respeita o [escopo](#rede-e-escopo), e uma IA externa conectada pelo [`/conect`](#conect) também alcança a avaliação multi-agente.</sub>
-
-<sub>[↑ índice](#indice)</sub>
-
----
-
-<a id="google-dorks"></a>
-
-## Google Dorks
-
-Recon por operador de busca, de graça e sem chave, em cima do DuckDuckGo e do Bing. Você diz a intenção e o clawfast monta a sintaxe, ou dispara um pacote pronto contra um domínio:
-
-```text
-❯ roda os dorks de segredos e backups em example.com
-❯ procura painéis de admin e diretórios abertos em example.com
-```
-
-São pacotes no estilo Google Hacking Database pra segredo e chave, backup, arquivo de config, `.git` exposto, painel de admin, listagem de diretório e dado vazado no GitHub, Pastebin ou S3. É sem chave de propósito, porque recon inicial não devia custar nem depender de API paga. Ele usa os buscadores públicos e ainda abre os melhores resultados pra você já ir lendo.
-
-<sub>[↑ índice](#indice)</sub>
-
----
-
-<a id="conectar-apis"></a>
-
-## Conectar APIs: cola a chave e pronto
-
-Cole a chave no chat e peça o que quer. O clawfast registra a conexão uma vez, guarda local (só você lê) e reusa nas próximas sessões. O segredo aparece sempre mascarado.
-
-```text
-❯ minha chave do shodan é 1a2b3c… — puxa tudo de example.com
-❯ conecta essa chave sk-or-… e lista os modelos
-```
-
-| Como ele reconhece | Serviços |
-|---|---|
-| Pelo prefixo da chave | OpenRouter, Groq, NVIDIA, xAI, Perplexity, GitLab, OpenAI, Anthropic, GitHub, Stripe, Slack, Hugging Face, Replicate, SendGrid, Google, Telegram, Apify |
-| Pelo nome (OSINT sem prefixo) | Shodan, SecurityTrails, VirusTotal, Hunter, AbuseIPDB, urlscan, HIBP, ipinfo, GreyNoise, Censys, LeakIX, DeepSeek, Mistral |
-| Qualquer outra | Você passa a URL base e o tipo de auth |
-
-Colou com aspas, quebra de linha ou do jeito `NOME=valor` de um `.env`? Ele limpa antes de salvar. O tráfego sai pelo Tor por padrão. Se o provedor bloquear o Tor (403, 429, página do Cloudflare), o próprio erro avisa e você liga `direct: true` na conexão. Ele nunca sai direto sem você pedir.
-
-<sub>[↑ índice](#indice)</sub>
-
----
-
-<a id="engenharia-reversa"></a>
-
-## Engenharia reversa de APK e binários nativos
-
-Manda o arquivo e pede em português. Não tem comando novo pra decorar: ele entende o que você quer e escolhe o caminho.
-
-```text
-❯ o que tem dentro desse app.apk?
-❯ descompila e procura chave de API escondida
-❯ esse apk roda no Android 15 com página de 16 KiB?
-❯ assina pra release com o meu perfil "loja" e instala no emulador
-❯ abre a libnative.so no Ghidra e me mostra a função de login
-```
-
-| O que ele faz | Como |
-|---|---|
-| Reconhece o arquivo | APK, XAPK, APKS, AAB, DEX, ELF, PE, Mach-O, e a engine do app (Unity, IL2CPP, Unreal) pelos bytes, não pela extensão |
-| Instala o que falta | Catálogo com 62 ferramentas (jadx, apktool, bundletool, Ghidra…). Ele mostra o plano e **você marca item a item** num formulário. Sem você, nada é instalado |
-| Confere compatibilidade | Esquemas de assinatura v1/v2/v3, `android:exported`, ABIs, alinhamento de 16 KiB, permissões por versão do Android |
-| Assina para release | 12 portões em sequência (integridade, alinhamento, assinatura, verificação, instalação no aparelho, execução). Só vai pra pasta `verified/` se passar em todos |
-| Guarda sua chave | O perfil de assinatura tem senha aleatória num cofre local. A IA usa o perfil pelo nome e **nunca vê a senha** |
-| Desce no nativo | `.so` aberto no Ghidra sem interface: funções, referências cruzadas e o código decompilado das funções que você pedir |
-
-E uma regra que vale pra tudo: **pergunta não é ordem**. Se você só perguntar ("dá pra descompilar isso?"), ele responde e para. Só executa quando você manda.
-
-<sub>[↑ índice](#indice)</sub>
-
----
-
-<a id="ghostcyber"></a>
-
-## O ghostcyber e a sua memória
-
-O clawfast não é um assistente. É um **ghostcyber**: direto, frio, sem "Olá, como posso ajudar?". Ele trabalha como um operador de red team sênior, sempre no mesmo ciclo:
-
-```text
-recon → hipótese → exploração → prova → encadeamento → registro
-```
-
-Mapeia antes de tocar, ataca primeiro o que tem mais chance e impacto, começa pela técnica mais silenciosa e só reporta o que conseguiu provar. O que não provou, ele diz que não está confirmado. Depois de cada vitória pergunta "isso destrava o quê?", pra transformar achado pequeno em caminho de alto impacto.
-
-**E ele aprende o seu jeito.** Fala no chat e ele grava pra sempre, em qualquer projeto e com qualquer modelo:
-
-```text
-❯ lembra que sempre quero o relatório em tópicos
-❯ nunca rode sqlmap com --risk 3 sem me avisar
-❯ a partir de agora fala comigo mais curto
-```
-
-| Tipo | Pra quê |
-|---|---|
-| **fazer** | o que ele deve sempre fazer |
-| **evitar** | o que ele nunca deve fazer |
-| **estilo** | tom, idioma e formato das respostas |
-
-Pra ver tudo que ele sabe de você, ou apagar uma regra: `/preferencias`. Fica em `~/.clawfast/preferencias.json`, na sua máquina.
-
-<sub>[↑ índice](#indice)</sub>
-
----
-
-<a id="gateways"></a>
-
-## Gateways de IA: 25 provedores num comando
-
-Digita `/api` e abre uma lista com busca. Escolhe o provedor, cola a chave e escolhe o modelo, tudo em janelas flutuantes:
-
-```text
-╔══[ NOVA CHAVE OPENROUTER ]═════════════════════════ esc ═╗
-║                                                          ║
-║   Cole a chave OpenRouter (formato sk-or-…).             ║
-║   Crie em https://openrouter.ai/keys                     ║
-║                                                          ║
-║   ┌────────────────────────────────────────────────────┐ ║
-║   │ ❯ •••••••••••••••••••••••••••••••••• (73)▌         │ ║
-║   └────────────────────────────────────────────────────┘ ║
-║                                                          ║
-╟──────────────────────────────────────────────────────────╢
-║  [Enter] confirma   [Ctrl+V] cola   [Esc] cancela        ║
-╚══════════════════════════════════════════════════════════╝
-```
-
-A chave nunca aparece na tela e é testada antes de salvar: se o provedor recusar, nada é gravado e a anterior continua. Escolheu um modelo que raciocina? Ele já pergunta o esforço: baixo, médio ou alto.
-
-| Grupo | Provedores |
-|---|---|
-| Nativos | NVIDIA, OpenRouter, Google Gemini |
-| Nuvem | OpenAI, Anthropic (Claude), Groq, DeepSeek, xAI (Grok), Mistral, Together, Fireworks, Cerebras, DeepInfra, SambaNova, Perplexity, Moonshot (Kimi), Z.ai (GLM), Qwen, Hugging Face, Cohere, Novita, Vercel AI Gateway |
-| Seu próprio | LiteLLM (proxy), Ollama e LM Studio (locais, sem chave), ou **Outro**: qualquer API compatível com OpenAI |
-
-<sub>[↑ índice](#indice)</sub>
-
----
-
-<a id="conect"></a>
-
-## /conect: um cérebro externo dirigindo
-
-Quer um modelo de fronteira dirigindo o clawfast? Digita `/conect` e aponta o Claude Code, Codex, Gemini ou Qwen pra ele. A IA externa vira o cérebro e o clawfast continua sendo as mãos e os olhos. Ela chama as ferramentas, você vê tudo acontecer no seu terminal.
-
-Não é uma IA conversando com a outra. Aqui a IA conectada usa o clawfast como ferramenta, com todo o arsenal na mão, inclusive a [avaliação multi-agente](#avaliacao-multi-agente). E fica tudo preso em `127.0.0.1`, protegido por token, então nada disso sai da sua máquina. Configura uma vez e esquece.
-
-<sub>[↑ índice](#indice)</sub>
-
----
-
-<a id="skills"></a>
-
-## Skills: ensinando truques novos
-
-Com `/skillcreator` você cola ou escreve uma skill, que é uma técnica, um checklist, um playbook do seu jeito, de qualquer tamanho:
-
-```text
-❯ /skillcreator
-nome da skill?      ❯ xss-recon
-descrição curta?    ❯ rotina de caça a XSS refletido e armazenado
-palavras-gatilho?   ❯ xss, cross-site scripting
-cole a skill agora  ❯ (cole o conteúdo... termine com /fim)
-```
-
-A skill vira conhecimento disponível pra todos os modelos, mas o conteúdo completo só carrega quando o seu pedido casa com ela. Fiz assim pra manter o contexto leve e barato: o playbook pesado só entra quando é útil, em vez de ficar ocupando espaço em toda conversa. Lista com `/skills` e remove com `/skill delete <nome>`.
-
-<sub>[↑ índice](#indice)</sub>
-
----
-
-<a id="modelos"></a>
-
-## Modelos e o fallback
-
-O clawfast tem uma cadeia de fallback automática. Se um modelo falha ou bate no limite, ele passa pro próximo sozinho. Isso importa porque modelo grátis bate em rate limit (429) o tempo todo, e sem fallback você travaria no meio de um pentest. Com ele, a sessão segue e você nem percebe.
-
-O provedor primário é a NVIDIA build (gratuita), com modelos de função de verdade, aqueles em que as ferramentas disparam mesmo:
-
-- `nvidia/nemotron-3-ultra-550b`
-- `mistralai/mistral-large-4-1t`
-- `deepseek-ai/deepseek-v4.1-flash`
-- `z-ai/glm-5.3-flash`
-
-A lista do `/model` vem do catálogo oficial da NVIDIA ao vivo: modelo aposentado some sozinho, modelo novo aparece com a marca **novo**, e o que está pra sair mostra a data.
-
-Quer fixar um modelo? Abre o `/model` e escolhe com as setas. Quer voltar pro automático? `/model auto`.
-
-<sub>[↑ índice](#indice)</sub>
-
----
-
-<a id="contexto"></a>
-
-## Contexto que não estoura: /compact e /autocompact
-
-Todo modelo tem um limite de quanto texto cabe na conversa. Num pentest longo, com scan, saída de ferramenta e resposta de servidor, esse limite chega rápido. Antes, quando passava, o provedor recusava e o turno morria ou ia parar no fallback. Agora o clawfast compacta: a parte antiga da conversa vira um resumo organizado (o objetivo, o que já foi feito, o que falta, os alvos, os achados, os comandos e os erros exatos) e a parte recente continua inteira, do jeito que estava.
-
-Isso acontece de três jeitos:
-
-| Quando | O que ele faz |
-|--------|---------------|
-| o modelo recusa por tamanho | reconhece o erro (OpenAI, Claude, Gemini, OpenRouter, LiteLLM e outros gateways), compacta e tenta de novo **no mesmo modelo**. Não confunde com limite por minuto (429) |
-| a conversa chega perto do limite | se o modelo informa o tamanho da janela (OpenRouter, Gemini e gateways que mostram isso no `/models`), compacta antes de estourar |
-| você manda | o `/compact` compacta na hora |
-
-E você pode declarar o limite que quiser:
-
-```text
-❯ /autocompact 300k
-✓ autocompact em 300k — compacta sozinho ao chegar em 270k (90%)
-```
-
-Aceita `300k`, `1m` ou o número cheio, tipo `128000`. O `/autocompact` sozinho mostra o valor atual e o `/autocompact off` desliga. Se a janela real do modelo for menor que o valor que você declarou, vale a menor, pra o provedor não recusar.
-
-Ele também aprende com o erro. Quando um provedor recusa dizendo o limite ("maximum context length is 131072 tokens"), o clawfast guarda esse número e, dali em diante, compacta antes de chegar lá, mesmo depois de você fechar e abrir de novo.
-
-<sub>[↑ índice](#indice)</sub>
-
----
-
-<a id="sobre-o-codigo"></a>
-
-## Sobre o código (e a real sobre segurança)
-
-Sendo honesto com você sobre o que é o executável:
-
-O binário não tem o código-fonte do projeto dentro. Ele carrega o JavaScript empacotado e minificado junto com o runtime. Você não recebe os arquivos-fonte, nem o repositório, nem o build.
-
-Mas, pra não te vender ilusão: um executável compilado ainda pode ser analisado por alguém habilidoso, dá pra extrair o bundle minificado de dentro dele. Contra usuário comum, é fechado. Contra engenharia reversa determinada, não é segredo absoluto. Os checksums protegem contra corrupção, não substituem a confiança na conta do GitHub.
-
-E as ferramentas externas que o clawfast usa durante uma sessão podem pedir dependências próprias. Só o runtime do CLI está incluído no executável.
-
-O de sempre, que vale repetir: use o clawfast só em sistemas que você tem autorização explícita pra testar.
-
-<sub>[↑ índice](#indice)</sub>
-
----
-
-<a id="referencia-rapida"></a>
-
-## Referência rápida
-
-<details>
-<summary><b>Instalar</b></summary>
-
-**Windows (PowerShell):**
-
-```powershell
-$s = Join-Path $env:TEMP 'clawfast-install.ps1'; Invoke-WebRequest -UseBasicParsing 'https://github.com/devadeiltonlima/ClawFast-/releases/latest/download/install.ps1' -OutFile $s; & ([scriptblock]::Create((Get-Content -Raw $s)))
-```
-
-**Linux ou macOS:**
-
-```sh
-curl -fsSL https://github.com/devadeiltonlima/ClawFast-/releases/latest/download/install.sh | sh
-export PATH="$HOME/.clawfast-runtime/bin:$PATH"
-```
-
-</details>
-
-<details>
-<summary><b>No dia a dia</b></summary>
-
-```sh
-clawfast              # abre o agente
-clawfast upgrade      # atualiza pela última versão (pelo GitHub, sem npm)
-clawfast --version    # mostra a versão instalada
-```
-
-</details>
-
-<details>
-<summary><b>Dentro do agente</b></summary>
-
-```text
-/model   /variant   /api   /preferencias   /session   /compact   /autocompact   /skills   /skillcreator   /conect   /system   /nov   /exit
-```
-
-</details>
-
-<sub>[↑ índice](#indice)</sub>
-
----
-
-<div align="center">
-
-### O terminal sempre foi seu. Agora ele trabalha por você.
-
-**Com o clawfast você faz tudo.**
-
-<sub>Use só em sistemas que você tem autorização explícita pra testar.</sub>
-
+<br>
+<sub>Use só em sistemas que você tem autorização explícita para testar.</sub>
 </div>
