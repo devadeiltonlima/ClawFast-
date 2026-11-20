@@ -92,6 +92,7 @@ Ele escolhe as ferramentas, executa, mostra a saída ao vivo e entrega o resulta
 | **Conectar APIs** | Cole a chave no chat. Ele reconhece o serviço (Shodan, VirusTotal, OpenAI, GitHub e outros), guarda local e mostra o segredo sempre mascarado. |
 | **Engenharia reversa** | APK, XAPK, AAB, DEX, ELF, PE e Mach-O: descompila, confere compatibilidade, assina para release e abre `.so` no Ghidra. Nada é instalado sem você marcar. |
 | **Skills** | Ensine técnicas e checklists, ou use as skills que você já tem no Claude e no Codex. Veja [Skills](#skills-terminal) logo abaixo. |
+| **Instruções do projeto** | Escreva um `CLAWFAST.md` (ou `AGENTS.md` / `CLAUDE.md`) na pasta e ele segue essas regras em toda conversa. Um `~/.clawfast/CLAWFAST.md` vale para qualquer pasta. |
 | **Memória** | Fale "lembra que…" ou "nunca…" e ele guarda suas preferências para qualquer projeto e modelo. Veja e apague com `/preferencias`. |
 | **25 gateways de IA** | `/api` conecta NVIDIA, OpenRouter, Gemini, OpenAI, Claude, Groq, DeepSeek, Ollama, LM Studio ou qualquer API compatível com OpenAI. |
 | **Cérebro externo** | `/conect` deixa o Claude Code, Codex ou Gemini dirigir o clawfast via MCP, preso em `127.0.0.1` e protegido por token. |
@@ -180,7 +181,9 @@ O clawfast agora também tem um app de desktop. Ele já vem com o mesmo motor do
 | | |
 |---|---|
 | **Conversas na lateral** | Todas as sessões salvas com título automático. Clique para voltar a uma, renomeie ou apague (o que você apaga fica 30 dias numa lixeira antes de sumir). |
-| **Trabalho visível e organizado** | Cada comando, ferramenta e pesquisa vira um cartão recolhido. Um clique abre o comando e a saída. A resposta da IA fica limpa por cima. |
+| **Trabalho visível e organizado** | Cada comando, ferramenta e pesquisa vira um cartão recolhido. Um clique abre o comando e a saída. A resposta da IA fica limpa por cima, e todo bloco de código tem botão de copiar. |
+| **Permissões da sessão** | Ao lado do modelo, escolha como a sessão age: **Padrão**, **Confirmar ações** (pede aprovação para tudo), **Planejamento** (só planeja), **Seguir sem pedir** (executa tudo sem perguntar) ou **Negar sem perguntar** (o que precisaria de aprovação é negado e ele segue sozinho). |
+| **Avisos do Windows** | Com o app em segundo plano, ele avisa quando uma execução longa termina ou quando uma aprovação está esperando você. |
 | **Painel lateral** (`Ctrl+.`) | O que está rodando agora, quanto do contexto já foi usado, a lista de tarefas do plano, os agentes trabalhando em paralelo, as skills que a IA leu, os sites visitados e os conectores ativos. |
 | **Caixa de mensagem completa** | Escolha o modelo e o esforço de raciocínio ali mesmo, anexe imagens, abra os comandos com `/` e mande mensagens novas enquanto ele trabalha (elas entram na fila). |
 | **Ações em cada mensagem sua** | Editar, voltar até ali e reenviar, começar uma conversa nova a partir dela, ou copiar. |
@@ -196,7 +199,7 @@ O clawfast agora também tem um app de desktop. Ele já vem com o mesmo motor do
 | **Modelos e chaves** | Modelo ativo, chaves de API por provedor, compactação automática do contexto e modo altíssimo (persona de pentest no máximo). |
 | **Rede e Tor** | Saída pelo Tor, IP que o alvo vê, troca de circuito e domínios que passam direto ou ficam bloqueados. |
 | **MCP** | Servidores MCP conectados e a permissão de cada ferramenta: permitir, aprovar, perguntar ou bloquear. |
-| **Conectores externos** | Liga o Claude Code, Codex, Cursor, Cline, Windsurf, Gemini CLI ou Qwen Code ao clawfast com um clique. |
+| **Conectores externos** | Liga o Claude Code, Codex, Cursor, Cline, Windsurf, Gemini CLI ou Qwen Code ao clawfast com um clique. A conexão mostra um aviso no canto, e a conversa "Via MCP" aparece na lateral quando a IA conectada começa a usar o clawfast. |
 | **Uso** | Quanto você usou de cada provedor. |
 | **Segurança** | Safe-mode: pede confirmação antes de escrever ou apagar arquivo e antes de rodar comando. |
 | **Privacidade** | Escopo autorizado: os alvos que as ferramentas podem atingir (domínio, `*.dominio`, faixa de IP ou link), com importação de `.txt`. |
