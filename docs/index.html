@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>clawfast · um agente de pentest que mora no seu terminal</title>
+<meta name="description" content="Você fala em português, ele pensa, executa e prova. Agente de pentest para terminal e Windows, com as suas chaves, sem login e sem limite de uso.">
+<meta property="og:title" content="clawfast · agente de pentest no terminal">
+<meta property="og:description" content="Você fala em português, ele pensa, executa e prova. Com as suas chaves, sem login e sem limite de uso.">
+<meta property="og:url" content="https://clawfast.co/">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#0b0b0b">
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topo">
+  <a class="marca" href="#inicio"><img src="logo.svg" alt="" width="22" height="31">clawfast</a>
+  <nav>
+    <a href="#o-que-faz">Recursos</a>
+    <a href="#terminal">Terminal</a>
+    <a href="#app">App <span class="tag">beta</span></a>
+    <a href="https://github.com/devadeiltonlima/ClawFast-" rel="noopener">GitHub</a>
+  </nav>
+</header>
+
+<main id="inicio">
+
+<section class="hero">
+  <img class="hero-logo" src="logo.svg" alt="logo do clawfast" width="96" height="135">
+  <h1>CLAWFAST</h1>
+  <p class="lema">Um agente de pentest que mora no seu terminal.</p>
+  <p class="sub">Você fala em português, ele pensa, executa e prova.<br>Com as suas chaves, sem login e sem limite de uso.</p>
+  <div class="acoes">
+    <a class="botao" href="#instalar">Instalar no terminal</a>
+    <a class="botao vazado" href="https://github.com/devadeiltonlima/ClawFast-/releases/latest/download/clawfast-app-windows-x64.exe">Baixar o app para Windows</a>
+  </div>
+  <p class="selos">
+    <img src="https://img.shields.io/github/v/release/devadeiltonlima/ClawFast-?style=flat-square&amp;label=vers%C3%A3o&amp;color=FFD600&amp;labelColor=111111" alt="versão" height="20">
+    <img src="https://img.shields.io/badge/licen%C3%A7a-MIT-FFD600?style=flat-square&amp;labelColor=111111" alt="licença MIT" height="20">
+  </p>
+
+  <div class="janela" aria-label="exemplo de conversa com o clawfast">
+    <div class="janela-barra"><i></i><i></i><i></i><span>clawfast</span></div>
+<pre><span class="p">❯</span> faça um recon completo de example.com
+<span class="p">❯</span> teste essa API por IDOR e me mostre a prova
+<span class="p">❯</span> analise o meu projeto e me diga onde estão as falhas
+<span class="p">❯</span> gere um relatório do que encontramos até agora<span class="cursor"></span></pre>
+  </div>
+</section>
+
+<section class="bloco">
+  <h2>O que é</h2>
+  <p>O clawfast é um operador de segurança que trabalha na sua frente. Ele roda comando, faz requisição HTTP, mapeia o alvo, acha vulnerabilidade e escreve o laudo. Não é autocomplete: é um agente com ferramentas reais na mão.</p>
+  <p>As ferramentas de pentest vivem espalhadas, um scanner aqui, um script ali, o relatório no fim. O clawfast junta tudo num lugar só, guiado por conversa, rodando na sua máquina.</p>
+  <p class="aviso">Use o clawfast só em sistemas que você tem autorização explícita para testar.</p>
+</section>
+
+<section class="bloco" id="o-que-faz">
+  <h2>O que ele faz</h2>
+  <div class="grade">
+    <article><h3>Auditoria de código</h3><p>Rode dentro do seu projeto e peça uma auditoria. Ele vira só leitura, rastreia o fluxo de dados (SQLi, injeção, XSS, segredos, cripto fraca) e só reporta o que consegue provar. Escreve apenas o <code>ANALISE_PROJETO_&lt;data&gt;.md</code>.</p></article>
+    <article><h3>Rede e escopo</h3><p>Requisição HTTP nativa, recon de subdomínio, portas e conteúdo, ferramentas que você já tem instaladas e verificação de exploit. Se algo for sair do escopo, ele para e pergunta.</p></article>
+    <article><h3>Avaliação multi-agente</h3><p>Um orquestrador sobe quatro agentes (Discovery, Web, Source, Validator) no mesmo alvo e cruza código com superfície para achar falhas como SSRF e injeção.</p></article>
+    <article><h3>Google Dorks</h3><p>Pacotes no estilo GHDB para segredos, backups, configs, <code>.git</code> exposto e painéis de admin, sem chave, via DuckDuckGo e Bing.</p></article>
+    <article><h3>Conectar APIs</h3><p>Cole a chave no chat. Ele reconhece o serviço (Shodan, VirusTotal, OpenAI, GitHub e outros), guarda local e mostra o segredo sempre mascarado.</p></article>
+    <article><h3>Engenharia reversa</h3><p>APK, XAPK, AAB, DEX, ELF, PE e Mach-O: descompila, confere compatibilidade, assina para release e abre <code>.so</code> no Ghidra. Nada é instalado sem você marcar.</p></article>
+    <article><h3>Skills</h3><p>Ensine técnicas e checklists, ou use as skills que você já tem no Claude e no Codex. Veja <a href="#skills">Skills</a> logo abaixo.</p></article>
+    <article><h3>Instruções do projeto</h3><p>Escreva um <code>CLAWFAST.md</code> (ou <code>AGENTS.md</code> / <code>CLAUDE.md</code>) na pasta e ele segue essas regras em toda conversa. Um <code>~/.clawfast/CLAWFAST.md</code> vale para qualquer pasta.</p></article>
+    <article><h3>Memória</h3><p>Fale "lembra que…" ou "nunca…" e ele guarda suas preferências para qualquer projeto e modelo. Veja e apague com <code>/preferencias</code>.</p></article>
+    <article><h3>25 gateways de IA</h3><p><code>/api</code> conecta NVIDIA, OpenRouter, Gemini, OpenAI, Claude, Groq, DeepSeek, Ollama, LM Studio ou qualquer API compatível com OpenAI.</p></article>
+    <article><h3>Cérebro externo</h3><p><code>/conect</code> deixa o Claude Code, Codex ou Gemini dirigir o clawfast via MCP, preso em <code>127.0.0.1</code> e protegido por token.</p></article>
+    <article><h3>Contexto longo</h3><p>Quando a conversa chega perto do limite do modelo, a parte antiga vira resumo e a recente fica inteira. <code>/compact</code> faz na hora, <code>/autocompact 300k</code> define o limite.</p></article>
+    <article><h3>Fallback de modelos</h3><p>Se um modelo falha ou bate no limite de uso, ele passa para o próximo sozinho.</p></article>
+  </div>
+</section>
+
+<section class="bloco" id="terminal">
+  <p class="rotulo">Terminal · Windows, Linux e macOS</p>
+  <h2 id="instalar">Instalar</h2>
+  <p>Um comando. Sem Node, sem npm: o clawfast é um executável único com o runtime embutido.</p>
+
+  <h3>Windows (PowerShell)</h3>
+  <div class="cmd"><pre>$s = Join-Path $env:TEMP 'clawfast-install.ps1'; Invoke-WebRequest -UseBasicParsing 'https://github.com/devadeiltonlima/ClawFast-/releases/latest/download/install.ps1' -OutFile $s; &amp; ([scriptblock]::Create((Get-Content -Raw $s)))</pre><button type="button" class="copiar">Copiar</button></div>
+
+  <h3>Linux e macOS</h3>
+  <div class="cmd"><pre>curl -fsSL https://github.com/devadeiltonlima/ClawFast-/releases/latest/download/install.sh | sh
+export PATH="$HOME/.clawfast-runtime/bin:$PATH"</pre><button type="button" class="copiar">Copiar</button></div>
+
+  <p>Tem para Windows x64, Linux x64, macOS Intel e Apple Silicon. O instalador confere o SHA-256 do executável antes de instalar e guarda tudo em <code>~/.clawfast-runtime/</code>. No Linux e no macOS, coloque a linha do <code>export PATH</code> no seu <code>~/.bashrc</code> ou <code>~/.zshrc</code>.</p>
+  <div class="cmd"><pre>clawfast version</pre><button type="button" class="copiar">Copiar</button></div>
+
+  <h2>Como usar</h2>
+  <div class="cmd"><pre>clawfast</pre><button type="button" class="copiar">Copiar</button></div>
+  <p>Na primeira vez ele pede uma chave de modelo. A <a href="https://build.nvidia.com/" rel="noopener">NVIDIA build</a> dá modelos de ponta de graça: crie a chave lá e cole quando o clawfast pedir. Ela fica em <code>~/.clawfast/.env</code>, na sua máquina.</p>
+  <p>Depois é só conversar. Ele escolhe as ferramentas, executa, mostra a saída ao vivo e entrega o resultado. O que ele cria (scripts, saídas, relatórios) fica na pasta <code>SPRIT</code>, dentro da pasta onde você abriu o clawfast.</p>
+
+  <div class="duas">
+    <div>
+      <h2>Parar tudo na hora</h2>
+      <table>
+        <thead><tr><th>Tecla</th><th>O que faz</th></tr></thead>
+        <tbody>
+          <tr><td><kbd>Esc</kbd></td><td>interrompe o que está rodando</td></tr>
+          <tr><td><kbd>F4</kbd> ou <code>[ PARAR ]</code></td><td>para o modelo, a fila, as ferramentas, as sessões vivas e a árvore inteira de processos</td></tr>
+          <tr><td><kbd>Ctrl+C</kbd></td><td>copia o que está selecionado; sem seleção, fecha o clawfast</td></tr>
+          <tr><td><kbd>Ctrl+T</kbd></td><td>abre ou fecha o trabalho recolhido da última resposta</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <h2>Comandos</h2>
+      <p>Digite <code>/</code> a qualquer momento para abrir o menu.</p>
+      <table>
+        <thead><tr><th>Comando</th><th>O que faz</th></tr></thead>
+        <tbody>
+          <tr><td><code>/model</code></td><td>troca o modelo da sessão (<code>/model auto</code> volta ao automático)</td></tr>
+          <tr><td><code>/variant</code></td><td>esforço de raciocínio do modelo: baixo, médio ou alto</td></tr>
+          <tr><td><code>/session</code></td><td>abre uma sessão nova ou volta para uma guardada</td></tr>
+          <tr><td><code>/compact</code> · <code>/autocompact</code></td><td>compacta a conversa agora ou define o limite automático</td></tr>
+          <tr><td><code>/api</code></td><td>conecta um dos 25 gateways de IA</td></tr>
+          <tr><td><code>/preferencias</code></td><td>mostra e apaga o que ele lembra de você</td></tr>
+          <tr><td><code>/skills</code> · <code>/skillcreator</code> · <code>/skill install</code></td><td>lista, cria ou instala skills</td></tr>
+          <tr><td><code>/conect</code></td><td>conecta uma IA externa via MCP</td></tr>
+          <tr><td><code>/nov</code></td><td>novidades da versão</td></tr>
+          <tr><td><code>/exit</code></td><td>fecha o clawfast</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <p>Para voltar a uma conversa depois de fechar, use o comando que aparece no encerramento:</p>
+  <div class="cmd"><pre>clawfast -s ses_0f7d409d7be8c064</pre></div>
+
+  <h2>Atualizar</h2>
+  <div class="cmd"><pre>clawfast upgrade</pre><button type="button" class="copiar">Copiar</button></div>
+  <p>Ele consulta a última release, baixa o executável novo, confere o SHA-256 e troca o binário guardando o anterior. Se algo der errado, a versão antiga continua no lugar. O clawfast também avisa sozinho quando sai versão nova.</p>
+  <p class="nota">O clawfast saiu do npm porque a verificação automática do npm passou a barrar as publicações e travou a versão <code>latest</code>. Desde a 3.x a distribuição é só pelo GitHub Releases.</p>
+</section>
+
+<section class="bloco" id="skills">
+  <h2>Skills, inclusive do Claude e do Codex</h2>
+  <p>Uma skill é um conhecimento empacotado: um procedimento, um checklist, um playbook. O clawfast usa o mesmo formato do Claude e do Codex (uma pasta com <code>SKILL.md</code> e, se tiver, scripts e referências). Então a skill que você já tem nessas IAs funciona no clawfast.</p>
+  <div class="duas">
+    <div>
+      <h3>No terminal</h3>
+      <p>Instale pelo caminho da pasta, de um <code>.skill</code>, de um <code>.zip</code> (pode ter várias dentro) ou de um <code>.md</code>:</p>
+      <div class="cmd"><pre><span class="p">❯</span> /skill install ~/.codex/skills/minha-skill</pre></div>
+      <p>Você também pode chamar pelo nome (<code>/nome-da-skill</code>). <code>/skills</code> lista e <code>/skillcreator</code> cria uma do zero.</p>
+    </div>
+    <div>
+      <h3>No app</h3>
+      <ul>
+        <li><b>Já instaladas no Claude ou no Codex:</b> em Configurações → Skills aparece a lista "Instaladas no Claude e no Codex", com tudo que está em <code>~/.claude/skills</code> e <code>~/.codex/skills</code>. Clique em <b>Usar no clawfast</b>.</li>
+        <li><b>De um arquivo ou pasta:</b> Configurações → Skills → <b>Adicionar</b>. Envie um <code>.skill</code>, um <code>.zip</code>, um <code>.md</code> solto, ou escolha a pasta da skill.</li>
+        <li><b>Do zero:</b> <b>Adicionar → Criar uma skill</b>.</li>
+      </ul>
+    </div>
+  </div>
+  <h3>O que o clawfast faz ao instalar</h3>
+  <ul>
+    <li>Lê o <code>SKILL.md</code> por completo: nome, descrição, ferramentas que ela usa, scripts e referências.</li>
+    <li>Adapta a skill para ele, sem reescrever o texto: onde ela diz Claude ou Codex, passa a valer o clawfast, e as ferramentas ganham o equivalente (Bash vira o terminal do clawfast, Read e Edit viram a ferramenta de arquivos, WebFetch abre a página, e assim por diante).</li>
+    <li>Copia os scripts e arquivos junto, e avisa se a skill cita um arquivo que não veio ou se precisa de Python, Node ou outro runtime.</li>
+  </ul>
+  <p><b>Como ele usa:</b> nenhuma skill fica carregada o tempo todo. O clawfast sabe o nome e a descrição de cada uma e, quando o seu pedido combina, lê a skill antes de agir. No app você vê na hora: aparece "Leu a skill X" na conversa.</p>
+</section>
+
+<section class="bloco" id="app">
+  <p class="rotulo">App para Windows <span class="tag">beta</span></p>
+  <h2>O clawfast com ainda mais poder</h2>
+  <p>O clawfast agora também tem um app de desktop. Ele já vem com o mesmo motor do clawfast de terminal, na mesma versão: tudo que o terminal faz, o app faz, e com o app o clawfast ganha ainda mais poder. Você enxerga o trabalho do agente, controla tudo por menus e conecta outras IAs e skills com um clique.</p>
+  <p class="aviso">O app está em fase beta e pode conter erros. Se algo der errado, <a href="https://github.com/devadeiltonlima/ClawFast-/issues" rel="noopener">abra uma issue</a> no repositório.</p>
+  <p><a class="botao" href="https://github.com/devadeiltonlima/ClawFast-/releases/latest/download/clawfast-app-windows-x64.exe">Baixar clawfast-app-windows-x64.exe</a></p>
+  <p>O motor vem dentro do instalador, então não precisa instalar o clawfast de terminal antes.</p>
+
+  <h3>O que o app soma ao clawfast</h3>
+  <div class="grade">
+    <article><h3>Conversas na lateral</h3><p>Todas as sessões salvas com título automático. Clique para voltar a uma, renomeie ou apague (o que você apaga fica 30 dias numa lixeira antes de sumir).</p></article>
+    <article><h3>Trabalho visível e organizado</h3><p>Cada comando, ferramenta e pesquisa vira um cartão recolhido. Um clique abre o comando e a saída. A resposta da IA fica limpa por cima, e todo bloco de código tem botão de copiar.</p></article>
+    <article><h3>Permissões da sessão</h3><p>Ao lado do modelo, escolha como a sessão age: <b>Padrão</b>, <b>Confirmar ações</b> (pede aprovação para tudo), <b>Planejamento</b> (só planeja), <b>Seguir sem pedir</b> (executa tudo sem perguntar) ou <b>Negar sem perguntar</b> (o que precisaria de aprovação é negado e ele segue sozinho).</p></article>
+    <article><h3>Avisos do Windows</h3><p>Com o app em segundo plano, ele avisa quando uma execução longa termina ou quando uma aprovação está esperando você.</p></article>
+    <article><h3>Painel lateral <kbd>Ctrl+.</kbd></h3><p>O que está rodando agora, quanto do contexto já foi usado, a lista de tarefas do plano, os agentes trabalhando em paralelo, as skills que a IA leu, os sites visitados e os conectores ativos.</p></article>
+    <article><h3>Caixa de mensagem completa</h3><p>Escolha o modelo e o esforço de raciocínio ali mesmo, anexe imagens, abra os comandos com <code>/</code> e mande mensagens novas enquanto ele trabalha (elas entram na fila).</p></article>
+    <article><h3>Ações em cada mensagem sua</h3><p>Editar, voltar até ali e reenviar, começar uma conversa nova a partir dela, ou copiar.</p></article>
+    <article><h3>Perguntas em formulário</h3><p>Quando a IA precisa de uma decisão sua, ela pergunta num formulário com opções, em vez de parar no meio.</p></article>
+    <article><h3>Confere se terminou</h3><p>Antes de encerrar, um verificador silencioso confere se o pedido foi atendido. Se faltou algo, ele volta e faz só o que faltou, sem repetir a resposta.</p></article>
+    <article><h3>Volta ao fim</h3><p>Rolou a conversa para cima? Um botão leva de volta à última mensagem.</p></article>
+  </div>
+
+  <h3>Configurações <kbd>Ctrl+,</kbd></h3>
+  <table>
+    <thead><tr><th>Seção</th><th>O que você ajusta</th></tr></thead>
+    <tbody>
+      <tr><td><b>Geral</b></td><td>Cor de destaque (5 temas), fundo, fontes, largura da conversa, animações, aviso de novidades e comandos por conversa ("troca o modelo", "liga o safe mode" e ele roda o comando).</td></tr>
+      <tr><td><b>Modelos e chaves</b></td><td>Modelo ativo, chaves de API por provedor, compactação automática do contexto e modo altíssimo (persona de pentest no máximo).</td></tr>
+      <tr><td><b>Rede e Tor</b></td><td>Saída pelo Tor, IP que o alvo vê, troca de circuito e domínios que passam direto ou ficam bloqueados.</td></tr>
+      <tr><td><b>MCP</b></td><td>Servidores MCP conectados e a permissão de cada ferramenta: permitir, aprovar, perguntar ou bloquear.</td></tr>
+      <tr><td><b>Conectores externos</b></td><td>Liga o Claude Code, Codex, Cursor, Cline, Windsurf, Gemini CLI ou Qwen Code ao clawfast com um clique. A conexão mostra um aviso no canto, e a conversa "Via MCP" aparece na lateral quando a IA conectada começa a usar o clawfast.</td></tr>
+      <tr><td><b>Uso</b></td><td>Quanto você usou de cada provedor.</td></tr>
+      <tr><td><b>Segurança</b></td><td>Safe-mode: pede confirmação antes de escrever ou apagar arquivo e antes de rodar comando.</td></tr>
+      <tr><td><b>Privacidade</b></td><td>Escopo autorizado: os alvos que as ferramentas podem atingir (domínio, <code>*.dominio</code>, faixa de IP ou link), com importação de <code>.txt</code>.</td></tr>
+      <tr><td><b>Skills</b></td><td>Suas skills e as que já estão instaladas no Claude e no Codex.</td></tr>
+      <tr><td><b>Sistema</b></td><td>Versão, plataforma, pasta de trabalho, conversas salvas e reiniciar o motor.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="duas">
+    <div>
+      <h3>Tudo do terminal, dentro do app</h3>
+      <p>Auditoria de código, recon, avaliação multi-agente, Google Dorks, conectar APIs, engenharia reversa, memória, gateways de IA e contexto longo funcionam igual no app, porque o motor é o mesmo. Os comandos de barra também: digite <code>/</code> na caixa de mensagem.</p>
+    </div>
+    <div>
+      <h3>Atualizar</h3>
+      <p>Quando sai versão nova, aparece um ícone de atualização no rodapé do app. Um clique baixa e instala.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="rodape">
+  <p>Licença <a href="https://github.com/devadeiltonlima/ClawFast-/blob/main/LICENSE" rel="noopener">MIT</a> · <a href="https://github.com/devadeiltonlima/ClawFast-" rel="noopener">GitHub</a> · <a href="https://github.com/devadeiltonlima/ClawFast-/releases" rel="noopener">Releases</a></p>
+  <p class="nota">Use só em sistemas que você tem autorização explícita para testar.</p>
+</footer>
+
+<script>
+// Botão copiar dos blocos de comando; cai para seleção manual se o navegador negar a área de transferência.
+document.querySelectorAll(".copiar").forEach(b => b.addEventListener("click", async () => {
+  const pre = b.parentElement.querySelector("pre");
+  try { await navigator.clipboard.writeText(pre.innerText); b.textContent = "Copiado"; }
+  catch { getSelection().selectAllChildren(pre); b.textContent = "Ctrl+C"; }
+  setTimeout(() => (b.textContent = "Copiar"), 1800);
+}));
+</script>
+</body>
+</html>
