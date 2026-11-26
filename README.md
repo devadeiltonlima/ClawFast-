@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/logo.svg" alt="logo do clawfast" width="110">
+<img src="assets/capa.png" alt="CLAWFAST — O ghostcyber do seu terminal" width="100%">
 
 # CLAWFAST
 
